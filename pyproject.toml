@@ -6,7 +6,6 @@ authors = ["Simone Porreca <porrecasimone@gmail.com>"]
 readme = "README.md"
 packages = [
     {include="general_utils", from="src"},
-    {include="bigquery_utils", from="src"},
     {include="logging_module", from="src"}
 ]
 

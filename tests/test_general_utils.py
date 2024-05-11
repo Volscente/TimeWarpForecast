@@ -1,5 +1,5 @@
 """
-This test module includes all the tests for the
+This tests module includes all the tests for the
 module src.general_utils.general_utils
 """
 # Import Standard Modules
@@ -18,7 +18,7 @@ def test_read_configuration(test_config_file: str,
                             expected_value: int) -> bool:
     """
     Test the function src.general_utils.general_utils.read_configuration
-    by reading test configuration entries
+    by reading tests configuration entries
 
     Args:
         test_config_file: String configuration file name

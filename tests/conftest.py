@@ -1,5 +1,5 @@
 """
-This test module includes all the fixtures necessary
+This tests module includes all the fixtures necessary
 for running PyTest tests
 """
 # Import Standard Libraries
@@ -28,21 +28,3 @@ def fixture_query_path() -> pathlib.Path:
         'test_queries' / \
         'test_access_bigquery_query.sql'
     return query_path
-
-
-@pytest.fixture
-def fixture_bigquery_client(project_id: str = configuration['bigquery_project_id']) \
-        -> bigquery.Client:
-    """
-    Fixture for a Google BigQuery client
-
-    Args:
-        project_id: str Google project ID
-
-    Returns:
-        bigquery_client: bigquery.Client object
-    """
-    # Initialise the BigQuery client
-    bigquery_client = bigquery.Client(project=project_id)
-
-    return bigquery_client

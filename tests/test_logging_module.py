@@ -1,5 +1,5 @@
 """
-This test module includes all the tests for the
+This tests module includes all the tests for the
 module src.logging_module.logging_module
 """
 # Import Standard Modules
