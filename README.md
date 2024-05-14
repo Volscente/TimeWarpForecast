@@ -20,7 +20,7 @@ export PYTHONPATH="$PYTHONPATH:/<absolute_path>/TimeWarpForecast"
 > It uses the `.env` file for ingesting variables.
 
 You can install it by following the [Documentation](https://just.systems/man/en/chapter_4.html).
-Afterwards, you can execute existing commands located in the `justfile`.
+Afterward, you can execute existing commands located in the `justfile`.
 
 Type `just` to list all available commands.
 
