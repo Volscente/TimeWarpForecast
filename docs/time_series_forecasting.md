@@ -21,7 +21,13 @@ from the time they occurred. For example, in the *Hardcover Sales* series, the s
 generally higher than sales earlier in the month.
 
 ### Lag Features
+They shift the observations of the target series so that they appear to have occurred later in time.
 
+![Time Dummy](./images/lag_features.png)
+
+The Lag features model the so-called **Serial Dependence**: time series has serial dependence when an 
+observation can be predicted from previous observations. In *Hardcover Sales*, we can predict that high sales on one 
+day usually mean high sales the next day.
 
 # Modeling
 ## Linear Regression
