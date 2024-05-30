@@ -49,3 +49,35 @@ def read_configuration(file_name: str) -> dict:
     logger.info('read_configuration - End')
 
     return configuration
+
+
+def build_path_from_list(path_list: list) -> pathlib.Path:
+    """
+    Build absolute pathlib.Path from relative path list from project root
+
+    Args:
+        path_list: List of relative path from root
+
+    Returns
+        absolute_path: pathlib.Path absolute path
+    """
+    logger.info('build_path_from_list - Start')
+    logger.info('build_path_from_list - Retrieve root path to the project folder')
+
+    # Retrieve root path
+    root_path = pathlib.Path(__file__).parents[2]
+
+    # Initialise the returned absolute path
+    absolute_path = root_path
+
+    logger.info('build_path_from_list - Build the absolute path')
+
+    # Build the absolute path to the target folder/file
+    for folder in path_list:
+
+        # Add the folder to the absolute path
+        absolute_path = absolute_path / folder
+
+    logger.info('build_path_from_list - End')
+
+    return absolute_path
