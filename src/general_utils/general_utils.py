@@ -51,7 +51,7 @@ def read_configuration(file_name: str) -> dict:
     return configuration
 
 
-def build_path_from_list(path_list: list) -> pathlib.Path:
+def build_path_from_list(path_list: list) -> Path:
     """
     Build absolute pathlib.Path from relative path list from project root
 
@@ -65,7 +65,7 @@ def build_path_from_list(path_list: list) -> pathlib.Path:
     logger.info('build_path_from_list - Retrieve root path to the project folder')
 
     # Retrieve root path
-    root_path = pathlib.Path(__file__).parents[2]
+    root_path = Path(__file__).parents[2]
 
     # Initialise the returned absolute path
     absolute_path = root_path
