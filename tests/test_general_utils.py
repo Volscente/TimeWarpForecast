@@ -7,7 +7,10 @@ import pathlib
 import pytest
 
 # Import Package Modules
-from src.general_utils.general_utils import read_configuration
+from src.general_utils.general_utils import (
+    read_configuration,
+    build_path_from_list
+)
 
 
 @pytest.mark.parametrize('test_config_file, test_config, expected_value', [
@@ -59,3 +62,35 @@ def test_read_configuration_exceptions(test_config_file: pathlib.Path,
 
     with pytest.raises(expected_error):
         read_configuration(test_config_file)
+
+
+@pytest.mark.parametrize('path_list, expected_absolute_path', [
+    (
+            [
+                'data',
+                'raw',
+                'test_data.csv'
+            ],
+            pathlib.Path(__file__).parents[1] /
+            'data' /
+            'raw' /
+            'test_data.csv'
+    )
+])
+def test_build_path_from_list(path_list: list,
+                              expected_absolute_path: pathlib.Path) -> bool:
+    """
+    Test the function src.general_utils.general_utils.build_path_from_list
+    by comparing built absolute path with the expected ome
+
+    Args:
+        path_list: list of relative path sub-folders
+        expected_absolute_path: pathlib.Path expected built absolute path
+
+    Returns:
+    """
+
+    # Build the absolute path
+    absolute_path = build_path_from_list(path_list)
+
+    assert absolute_path.resolve() == expected_absolute_path.resolve()
