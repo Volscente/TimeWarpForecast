@@ -3,6 +3,7 @@ The module contains several general util functions
 """
 # Import Standard Libraries
 import os
+import pandas as pd
 from pathlib import Path
 import yaml
 
@@ -81,3 +82,48 @@ def build_path_from_list(path_list: list) -> Path:
     logger.info('build_path_from_list - End')
 
     return absolute_path
+
+
+def read_data_from_config(data_config: dict) -> pd.DataFrame:
+    """
+    Read data as a Panda DataFrame from a dictionary configuration with structure
+
+    data_config:
+        data_path: list[str]
+        date_columns: list[str]
+        delimiter: str
+
+    Args:
+        data_config: Dictionary of data configuration
+
+    Returns:
+        data: Panda DataFrame read from configuration
+    """
+
+    logger.info('read_data_from_config - Start')
+
+    logger.info('read_data_from_config - Retrieve data path')
+
+    # Retrieve data path
+    data_path = build_path_from_list(data_config['data_path'])
+
+    # Check if the data_path exists
+    if not data_path.exists():
+
+        raise FileNotFoundError(f'read_data_from_config - {data_path} not found')
+
+    logger.info('read_data_from_config - Retrieved data path %s', data_path.as_posix())
+
+    logger.info('read_data_from_config - Reading data')
+
+    # Read data with Pandas
+    data = pd.read_csv(data_path,
+                       sep=data_config['delimiter'],
+                       parse_dates=data_config['date_columns'])
+
+    logger.info('read_data_from_config - Successfully read data with %s rows and %s columns',
+                [len(data), len(data.columns)])
+
+    logger.info('read_data_from_config - End')
+
+    return data

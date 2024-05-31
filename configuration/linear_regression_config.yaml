@@ -4,4 +4,5 @@ tunnel_dataset_config:
     - 'raw'
     - 'tunnel.csv'
   date_columns:
-  - 'Day'
+    - 'Day'
+  delimiter: ','
