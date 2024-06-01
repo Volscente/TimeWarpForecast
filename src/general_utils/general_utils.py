@@ -88,10 +88,10 @@ def read_data_from_config(data_config: dict) -> pd.DataFrame:
     """
     Read data as a Panda DataFrame from a dictionary configuration with structure
 
-    data_config:
-        data_path: list[str]
-        date_columns: list[str]
-        delimiter: str
+        <data_config_name>:
+            data_path: list[str]
+            date_columns: list[str]
+            delimiter: str
 
     Args:
         data_config: Dictionary of data configuration

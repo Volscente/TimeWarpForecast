@@ -94,3 +94,7 @@ def test_build_path_from_list(path_list: list,
     absolute_path = build_path_from_list(path_list)
 
     assert absolute_path.resolve() == expected_absolute_path.resolve()
+
+
+def test_read_data_from_config():
+    pass

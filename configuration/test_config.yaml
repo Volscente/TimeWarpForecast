@@ -1,2 +1,12 @@
 # Test value
 test_value: 1
+
+# Test Data Config
+test_data_config:
+  data_path:
+    - 'data'
+    - 'test'
+    - 'test_data.csv'
+  date_columns:
+    - 'Day'
+  delimiter: ','
