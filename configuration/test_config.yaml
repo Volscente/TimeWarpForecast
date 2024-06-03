@@ -10,3 +10,13 @@ test_data_config:
   date_columns:
     - 'test_date'
   delimiter: ','
+
+# Test Exception Data Config
+test_exception_data_config:
+  data_path:
+    - 'data'
+    - 'test'
+    - 'wrong_test_data.csv'
+  date_columns:
+    - 'test_date'
+  delimiter: ','

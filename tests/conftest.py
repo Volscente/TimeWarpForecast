@@ -32,3 +32,22 @@ def fixture_data_config(test_data_config: dict = configuration['test_data_config
     """
 
     return test_data_config
+
+
+@pytest.fixture
+def fixture_exception_data_config(test_exception_data_config: dict = configuration['test_exception_data_config']):
+    """
+    Fixture for a Dictionary test exception data config with structure:
+        <data_config_name>:
+            data_path: list[str]
+            date_columns: list[str]
+            delimiter: str
+
+    Args:
+        test_exception_data_config: Dictionary of data configuration
+
+    Returns:
+        exception_test_data_config: Dictionary of data configuration
+    """
+
+    return test_exception_data_config

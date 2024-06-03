@@ -121,3 +121,23 @@ def test_read_data_from_config(fixture_data_config: dict,
     print(test_data.iloc[input_test_index])
 
     assert test_data.iloc[input_test_index, 1] == expected_test_value
+
+
+@pytest.mark.parametrize('expected_error', [
+    FileNotFoundError
+])
+def test_read_data_from_config_exceptions(fixture_exception_data_config: dict,
+                                          expected_error: FileNotFoundError) -> bool:
+    """
+    Test the exceptions to the function
+    src.general_utils.general_utils.read_data_from_config
+
+    Args:
+        fixture_exception_data_config: Dictionary of data configuration
+        expected_error: Exception instance
+
+    Returns:
+    """
+
+    with pytest.raises(expected_error):
+        read_data_from_config(fixture_exception_data_config)
