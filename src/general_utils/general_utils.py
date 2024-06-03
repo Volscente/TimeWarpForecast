@@ -122,7 +122,7 @@ def read_data_from_config(data_config: dict) -> pd.DataFrame:
                        parse_dates=data_config['date_columns'])
 
     logger.info('read_data_from_config - Successfully read data with %s rows and %s columns',
-                [len(data), len(data.columns)])
+                len(data), len(data.columns))
 
     logger.info('read_data_from_config - End')
 

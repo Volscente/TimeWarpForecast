@@ -9,7 +9,8 @@ import pytest
 # Import Package Modules
 from src.general_utils.general_utils import (
     read_configuration,
-    build_path_from_list
+    build_path_from_list,
+    read_data_from_config
 )
 
 
@@ -96,5 +97,27 @@ def test_build_path_from_list(path_list: list,
     assert absolute_path.resolve() == expected_absolute_path.resolve()
 
 
-def test_read_data_from_config():
-    pass
+@pytest.mark.parametrize('input_test_index, expected_test_value', [
+    (0, 103536)
+])
+def test_read_data_from_config(fixture_data_config: dict,
+                               input_test_index: str,
+                               expected_test_value: int) -> bool:
+    """
+    Test the function src.general_utils.general_utils.read_data_from_config
+    by reading test data entries from config file
+
+    Args:
+        fixture_data_config: Dictionary of data configuration
+        input_test_index: Integer test data entry index
+        expected_test_value: Integer test data entry value
+
+    Returns:
+    """
+
+    # Read data
+    test_data = read_data_from_config(fixture_data_config)
+
+    print(test_data.iloc[input_test_index])
+
+    assert test_data.iloc[input_test_index, 1] == expected_test_value

@@ -8,5 +8,5 @@ test_data_config:
     - 'test'
     - 'test_data.csv'
   date_columns:
-    - 'Day'
+    - 'test_date'
   delimiter: ','
