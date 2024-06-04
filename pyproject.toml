@@ -12,6 +12,8 @@ pytest = "^8.2.0"
 pylint = "^3.2.2"
 pylint-pytest = "^1.1.8"
 pandas = "^2.2.2"
+jupyterlab = "^4.2.1"
+scikit-learn = "^1.5.0"
 
 [tool.poetry.group.dev.dependencies]
 matplotlib = "^3.9.0"
