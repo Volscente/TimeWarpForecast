@@ -30,6 +30,9 @@ observation can be predicted from previous observations. In *Hardcover Sales*, w
 day usually mean high sales the next day.
 
 # Modeling
+## Time-Step & Lag Features
+The best time series models will usually include some combination of time-step features and lag feature.
+
 ## Linear Regression
 Linear regression is widely used in practice and adapts naturally to even complex forecasting tasks.
 
