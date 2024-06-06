@@ -29,6 +29,34 @@ The Lag features model the so-called **Serial Dependence**: time series has seri
 observation can be predicted from previous observations. In *Hardcover Sales*, we can predict that high sales on one 
 day usually mean high sales the next day.
 
+## Trend
+The **Trend** component of a time series represents a persistent, long-term change in the mean of the series.
+The trend is the slowest-moving part of a series, the part representing the largest timescale of importance.
+
+![Trend](./images/trend.png)
+
+One of the most common trend is in the **mean**.
+
+### Moving Average Plot
+It is a technique used to see what kind of trend a time series might have. 
+It is plotted by computing the average of the values within a sliding window of some defined width.
+
+![Moving Average](./images/moving_average.png)
+
+The *Mauna Loa* series above has a repeating up and down movement year after year -- a short-term, 
+seasonal change. For a change to be a part of the trend, it should occur over a longer period than any seasonal changes. 
+To visualize a trend, therefore, we take an average over a period longer than any seasonal period in the series. 
+For the *Mauna Loa* series, we chose a window of size 12 to smooth over the season within each year.
+
+The Moving Average is used to see a trend without the "noise" added by seasonal changes.
+
+### Feature Engineering
+A Trend can be engineered through a time-step feature, either linear or quadratic, depending on the trend type:
+- `target = a * time + b`
+- `target = a * time ** 2 + b * time + c`
+
+![Trend Feature Engineering](./images/trend_feature_engineering.png)
+
 # Modeling
 ## Time-Step & Lag Features
 The best time series models will usually include some combination of time-step features and lag feature.
