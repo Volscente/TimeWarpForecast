@@ -29,7 +29,7 @@ The Lag features model the so-called **Serial Dependence**: time series has seri
 observation can be predicted from previous observations. In *Hardcover Sales*, we can predict that high sales on one 
 day usually mean high sales the next day.
 
-## Trend
+# Trend
 The **Trend** component of a time series represents a persistent, long-term change in the mean of the series.
 The trend is the slowest-moving part of a series, the part representing the largest timescale of importance.
 
@@ -37,7 +37,7 @@ The trend is the slowest-moving part of a series, the part representing the larg
 
 One of the most common trend is in the **mean**.
 
-### Moving Average Plot
+## Moving Average Plot
 It is a technique used to see what kind of trend a time series might have. 
 It is plotted by computing the average of the values within a sliding window of some defined width.
 
@@ -50,12 +50,29 @@ For the *Mauna Loa* series, we chose a window of size 12 to smooth over the seas
 
 The Moving Average is used to see a trend without the "noise" added by seasonal changes.
 
-### Feature Engineering
+## Feature Engineering
 A Trend can be engineered through a time-step feature, either linear or quadratic, depending on the trend type:
 - `target = a * time + b`
 - `target = a * time ** 2 + b * time + c`
 
 ![Trend Feature Engineering](./images/trend_feature_engineering.png)
+
+One famous example is the `Food and Beverage Sales` series, which has a so-called **Percentage Change**, which expressed
+a quadratic (order 2 polynomial) trend, sometimes modeled through an exponential curve.
+
+![Percentage Change Trend](./images/percentage_change_trend.png)
+
+# Seasonality
+## Definition
+It is a regular and periodic change in the mean of the series. They usually follow the clock/calendar with repetitions over day, week
+or year as the most common ones.
+
+![Seasonality Examples](./images/seasonality_examples.png)
+
+## Features
+There are two kinds of features that model seasonality:
+- **Indicators** - It is best suited for a season with few observations (like weekly or daily observations)
+- **Fourier** - It is best when having many observations (e.g., annual season with daily observations)
 
 # Modeling
 ## Time-Step & Lag Features
