@@ -29,6 +29,21 @@ The Lag features model the so-called **Serial Dependence**: time series has seri
 observation can be predicted from previous observations. In *Hardcover Sales*, we can predict that high sales on one 
 day usually mean high sales the next day.
 
+## Serial Dependence
+With *Lag Features* we introduced the concept of **Serial Dependence: time series has serial dependence when an 
+observation can be predicted from previous observations.
+
+The structure of these time series may not be apparent from a plot over time; 
+plotted against past values, however, the structure becomes clear:
+
+![Serial Dependence](./images/serial_dependence.png)
+
+It is important not just to train models using Time Dependence features (e.g., time-step features),
+but also using Serial Dependence features.
+
+### Cycles
+
+
 # Trend
 The **Trend** component of a time series represents a persistent, long-term change in the mean of the series.
 The trend is the slowest-moving part of a series, the part representing the largest timescale of importance.
