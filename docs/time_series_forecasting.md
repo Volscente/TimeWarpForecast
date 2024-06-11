@@ -29,21 +29,6 @@ The Lag features model the so-called **Serial Dependence**: time series has seri
 observation can be predicted from previous observations. In *Hardcover Sales*, we can predict that high sales on one 
 day usually mean high sales the next day.
 
-## Serial Dependence
-With *Lag Features* we introduced the concept of **Serial Dependence: time series has serial dependence when an 
-observation can be predicted from previous observations.
-
-The structure of these time series may not be apparent from a plot over time; 
-plotted against past values, however, the structure becomes clear:
-
-![Serial Dependence](./images/serial_dependence.png)
-
-It is important not just to train models using Time Dependence features (e.g., time-step features),
-but also using Serial Dependence features.
-
-### Cycles
-
-
 # Trend
 The **Trend** component of a time series represents a persistent, long-term change in the mean of the series.
 The trend is the slowest-moving part of a series, the part representing the largest timescale of importance.
@@ -147,6 +132,44 @@ It is used to decide how many Fourier Features to include by showing the strengt
 Above we have the Periodgram of the Wikipedia Trigonometry page daily visits. It drops after the *Quarterly* frequency (4 times
 a year). This is the reason why it has been chosen to use 4 pairs of Fourier Features. The *Weekly* frequency has been ignored, 
 since it could be modeled through the Indicators.
+
+# Serial Dependence
+With *Lag Features* we introduced the concept of **Serial Dependence: time series has serial dependence when an 
+observation can be predicted from previous observations.
+
+The structure of these time series may not be apparent from a plot over time; 
+plotted against past values, however, the structure becomes clear:
+
+![Serial Dependence](./images/serial_dependence.png)
+
+It is important not just to train models using Time Dependence features (e.g., time-step features),
+but also using Serial Dependence features.
+
+## Cycles
+They are a common way for Serial Dependence to manifest. They are patterns of growth and decay in a time series. 
+They are associated with how the value in a series at one time depends on values at previous times.
+
+A Cyclic behaviour is characteristic of systems that can affect themselves or have reactions that persist over time.
+
+![Cycles](./images/cycles.png)
+
+The difference between Cycles and Seasonality is that they are not necessarily time dependant, while seasons are.
+What happens in a cycle is less about when it happens (date), but more about what happened before (previous time steps).
+
+## Lagged Series
+A *Lagged Series* is a copy of the original time series that it build by shifting values forward/backward one or more time steps.
+
+It is used to investigate possible *Serial Dependencies* (like cycles).
+
+![Lagged Series Example](./images/lagged_series_example.png).
+
+
+## Lag Plots
+They plot the values of a time series against its lags. This makes any Serial Dependence visible.
+
+![Lag Plots](./images/lag_plots.png)
+
+It is possible to 
 
 # Modeling
 ## Time-Step & Lag Features
