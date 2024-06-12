@@ -3,8 +3,8 @@ The module contains several general util functions
 """
 # Import Standard Libraries
 import os
-import pandas as pd
 from pathlib import Path
+import pandas as pd
 import yaml
 
 
