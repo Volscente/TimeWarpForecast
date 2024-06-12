@@ -14,3 +14,7 @@ loggers:
     level: INFO
     handlers: [ console ]
     propagate: no
+  exploratory_data_analysis_utils:
+    level: INFO
+    handlers: [ console ]
+    propagate: no

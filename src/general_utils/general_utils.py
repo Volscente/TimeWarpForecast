@@ -114,10 +114,10 @@ def read_data_from_config(data_config: dict) -> pd.DataFrame:
 
     logger.info('read_data_from_config - Retrieved data path %s', data_path.as_posix())
 
-    logger.info('read_data_from_config - Reading data')
-
     # Switch if date columns have to be parsed
-    if data_config['date_columns']:
+    if 'date_columns' in data_config.keys():
+
+        logger.info('read_data_from_config - Reading data with date columns')
 
         # Read data with Pandas
         data = pd.read_csv(data_path,
@@ -125,6 +125,8 @@ def read_data_from_config(data_config: dict) -> pd.DataFrame:
                            parse_dates=data_config['date_columns'])
 
     else:
+
+        logger.info('read_data_from_config - Reading data without date columns')
 
         # Read data with Pandas
         data = pd.read_csv(data_path,
