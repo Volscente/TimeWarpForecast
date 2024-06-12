@@ -1,0 +1,8 @@
+tunnel_dataset_config:
+  data_path:
+    - 'data'
+    - 'raw'
+    - 'tunnel.csv'
+  date_columns:
+    - 'Day'
+  delimiter: ','

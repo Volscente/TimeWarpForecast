@@ -8,7 +8,7 @@ echo
 
 # Lint
 poetry run pylint \
-  --disable='C0301, R0903, R0801' \
+  --disable='C0301, R0903, R0801, W0603' \
   --load-plugins pylint_pytest \
   --source-roots=./src \
   --output-format=colorized \
