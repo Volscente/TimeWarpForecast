@@ -1,0 +1,8 @@
+# -------- Exploratory Data Analysis --------
+dataset_config:
+  data_path:
+    - 'data'
+    - 'raw'
+    - 'flu_trends.csv'
+  delimiter: ','
+# ------------------------------------------
