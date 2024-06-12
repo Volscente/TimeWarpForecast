@@ -82,7 +82,7 @@ def test_build_path_from_list(path_list: list,
                               expected_absolute_path: pathlib.Path) -> bool:
     """
     Test the function src.general_utils.general_utils.build_path_from_list
-    by comparing built absolute path with the expected ome
+    by comparing built absolute path with the expected one
 
     Args:
         path_list: list of relative path sub-folders
