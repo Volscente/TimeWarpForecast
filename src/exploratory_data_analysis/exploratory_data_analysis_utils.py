@@ -5,6 +5,7 @@ The module contains several util functions for performing exploratory data analy
 import os
 from pathlib import Path
 import pandas as pd
+import matplotlib
 import seaborn as sns
 
 # Import Package Modules
@@ -51,7 +52,8 @@ def set_plot_characteristics(plot_characteristics: dict) -> None:
     logger.info('set_plot_characteristics - End')
 
 
-def plot_time_series(time_series: pd.DataFrame):
+# TODO: Refactor using Seaborn lineplot and all usual "prettienes"
+def plot_time_series(time_series: pd.DataFrame, x_column: str, y_column: str, title: str) -> matplotlib.axes.Axes:
     plot_params = dict(
         color="0.75",
         style=".-",
@@ -60,4 +62,14 @@ def plot_time_series(time_series: pd.DataFrame):
         legend=False,
     )
 
-    time_series.plot(**plot_params)
+    ax = sns.lineplot(data=time_series,
+                      x=time_series[x_column],
+                      y=time_series[y_column])
+
+    # Set title
+    ax.set_title(title,
+                 fontsize=20)
+    # Set tick rotation
+    ax.tick_params(labelrotation=45)
+
+    return ax

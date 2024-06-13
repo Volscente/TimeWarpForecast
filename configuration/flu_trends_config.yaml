@@ -20,4 +20,6 @@ dataset_config:
     - 'raw'
     - 'flu_trends.csv'
   delimiter: ','
+  date_columns:
+    - 'Week'
 # ------------------------------------------
