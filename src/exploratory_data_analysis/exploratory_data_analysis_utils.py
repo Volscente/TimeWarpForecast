@@ -2,6 +2,7 @@
 The module contains several util functions for performing exploratory data analysis.
 """
 # Import Standard Libraries
+import numpy as np
 import os
 from pathlib import Path
 import pandas as pd
@@ -53,7 +54,6 @@ def set_plot_characteristics(plot_characteristics: dict) -> None:
     logger.info('set_plot_characteristics - End')
 
 
-# TODO: Refactor using Seaborn lineplot and all usual "prettienes"
 def plot_time_series(time_series: pd.DataFrame,
                      x_column: str,
                      y_column: str,
@@ -89,5 +89,27 @@ def plot_time_series(time_series: pd.DataFrame,
                   fontsize=14)
     ax.set_ylabel(labels[1],
                   fontsize=14)
+
+    return ax
+
+
+def plot_predictions_vs_time_series(time_series: pd.DataFrame,
+                                    predictions: np.ndarray,
+                                    x_column: str,
+                                    y_column: str,
+                                    title: str,
+                                    labels: Tuple[str, str]) -> matplotlib.axes.Axes:
+
+    # Retrieve time series plot
+    ax = plot_time_series(time_series=time_series,
+                          x_column=x_column,
+                          y_column=y_column,
+                          title=title,
+                          labels=labels)
+
+    # Plot predictions
+    sns.lineplot(x=time_series[x_column],
+                 y=predictions.reshape(1, -1),
+                 ax=ax)
 
     return ax
