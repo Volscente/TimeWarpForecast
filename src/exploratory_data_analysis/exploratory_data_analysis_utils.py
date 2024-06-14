@@ -7,6 +7,7 @@ from pathlib import Path
 import pandas as pd
 import matplotlib
 import seaborn as sns
+from typing import Tuple
 
 # Import Package Modules
 from src.logging_module.logging_module import get_logger
@@ -53,23 +54,40 @@ def set_plot_characteristics(plot_characteristics: dict) -> None:
 
 
 # TODO: Refactor using Seaborn lineplot and all usual "prettienes"
-def plot_time_series(time_series: pd.DataFrame, x_column: str, y_column: str, title: str) -> matplotlib.axes.Axes:
-    plot_params = dict(
-        color="0.75",
-        style=".-",
-        markeredgecolor="0.25",
-        markerfacecolor="0.25",
-        legend=False,
-    )
+def plot_time_series(time_series: pd.DataFrame,
+                     x_column: str,
+                     y_column: str,
+                     title: str,
+                     labels: Tuple[str, str]) -> matplotlib.axes.Axes:
+    """
+    Plots a time series using seaborn matplotlib Axes.
 
+    Args:
+        time_series: Pandas dataframe with time series
+        x_column: String name of column in time_series for x-axis
+        y_column: String name of column in time_series for y-axis
+        title: String title of plot
+        labels: Tuple of two strings containing labels for x-axis and y-axis
+
+    Returns:
+        ax: matplotlib Axes
+    """
+    # Plot the data
     ax = sns.lineplot(data=time_series,
                       x=time_series[x_column],
                       y=time_series[y_column])
 
     # Set title
     ax.set_title(title,
+                 fontweight='bold',
                  fontsize=20)
     # Set tick rotation
     ax.tick_params(labelrotation=45)
+
+    # Set Labels
+    ax.set_xlabel(labels[0],
+                  fontsize=14)
+    ax.set_ylabel(labels[1],
+                  fontsize=14)
 
     return ax
