@@ -109,7 +109,7 @@ def plot_predictions_vs_time_series(time_series: pd.DataFrame,
 
     # Plot predictions
     sns.lineplot(x=time_series[x_column],
-                 y=predictions.reshape(1, -1),
+                 y=predictions,
                  ax=ax)
 
     return ax
