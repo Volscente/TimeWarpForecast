@@ -1,15 +1,15 @@
 """
 The module contains several util functions for performing exploratory data analysis.
 """
-import matplotlib.pyplot as plt
 # Import Standard Libraries
-import numpy as np
 import os
 from pathlib import Path
+from typing import Tuple
+import numpy as np
+import matplotlib.pyplot as plt
 import pandas as pd
 import matplotlib
 import seaborn as sns
-from typing import Tuple
 
 # Import Package Modules
 from src.logging_module.logging_module import get_logger
@@ -56,27 +56,27 @@ def set_plot_characteristics(plot_characteristics: dict) -> None:
 
 
 def plot_time_series(time_series: pd.DataFrame,
-                     x_column: str,
-                     y_column: str,
+                     columns: Tuple[str, str],
                      title: str,
-                     labels: Tuple[str, str, str]) -> matplotlib.axes.Axes:
+                     labels: Tuple[str, str, str],
+                     to_plot: bool) -> matplotlib.axes.Axes:
     """
     Plots a time series using seaborn matplotlib Axes.
 
     Args:
         time_series: Pandas dataframe with time series
-        x_column: String name of column in time_series for x-axis
-        y_column: String name of column in time_series for y-axis
+        columns: TUple of String name of columns in time_series for x-axis nad y-axis
         title: String title of plot
         labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
+        to_plot: Boolean indicating whether to plot the time series or return the axes
 
     Returns:
         ax: matplotlib Axes
     """
     # Plot the data
     ax = sns.lineplot(data=time_series,
-                      x=time_series[x_column],
-                      y=time_series[y_column],
+                      x=time_series[columns[0]],
+                      y=time_series[columns['1']],
                       label=labels[2])
 
     # Set title
@@ -99,34 +99,45 @@ def plot_time_series(time_series: pd.DataFrame,
               fontsize=12,
               ncol=2)
 
-    # Show plt
-    plt.show()
+    # Switch for plotting or returning the axes
+    if to_plot:
 
-    # Define the layout
-    plt.tight_layout()
+        # Show plt
+        plt.show()
+
+        # Define the layout
+        plt.tight_layout()
 
     return ax
 
 
 def plot_predictions_vs_time_series(time_series: pd.DataFrame,
                                     predictions: np.ndarray,
-                                    x_column: str,
-                                    y_column: str,
+                                    columns: Tuple[str, str],
                                     title: str,
                                     labels: Tuple[str, str]) -> matplotlib.axes.Axes:
-    # Retrieve time series plot
+    # Plot time series
     ax_time_series = plot_time_series(time_series=time_series,
-                                      x_column=x_column,
-                                      y_column=y_column,
+                                      columns=columns,
                                       title=title,
-                                      labels=labels)
+                                      labels=(labels[0], labels[1], 'Time Series'),
+                                      to_plot=False)
 
     # Plot predictions
     ax_predictions = sns.lineplot(x=time_series[x_column],
                                   y=predictions,
+                                  label='Predictions',
                                   ax=ax_time_series)
 
-    ax_predictions.legend(handles=[ax_time_series, ax_predictions],
-                          labels=['Times Series', 'Predictions'])
+    ax_predictions.legend(loc='upper center',
+                          bbox_to_anchor=(0.5, 1.03),
+                          fontsize=12,
+                          ncol=2)
+
+    # Show plt
+    plt.show()
+
+    # Define the layout
+    plt.tight_layout()
 
     return ax_predictions
