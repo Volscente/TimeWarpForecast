@@ -71,7 +71,7 @@ def plot_time_series(time_series: pd.DataFrame,
         to_plot: Boolean indicating whether to plot the time series or return the axes
 
     Returns:
-        ax: matplotlib Axes
+        ax: matplotlib Axes with time series plot
     """
     # Plot the data
     ax = sns.lineplot(data=time_series,
@@ -116,6 +116,19 @@ def plot_predictions_vs_time_series(time_series: pd.DataFrame,
                                     columns: Tuple[str, str],
                                     title: str,
                                     labels: Tuple[str, str]) -> matplotlib.axes.Axes:
+    """
+    Plot the predicted values against the time series
+
+    Args:
+        time_series: Pandas DataFrame with time series
+        predictions: Numpy array with predicted values
+        columns: Tuple of String name of columns in time_series for x-axis nad y-axis
+        title: String title of plot
+        labels: Tuple of two strings containing labels for x-axis and y-axis and for the plot
+
+    Returns:
+        ax_predictions: matplotlib Axes with predicted values against the time series plot
+    """
     # Plot time series
     ax_time_series = plot_time_series(time_series=time_series,
                                       columns=columns,
