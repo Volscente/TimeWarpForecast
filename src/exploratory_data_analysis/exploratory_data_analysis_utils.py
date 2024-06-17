@@ -65,7 +65,7 @@ def plot_time_series(time_series: pd.DataFrame,
 
     Args:
         time_series: Pandas dataframe with time series
-        columns: TUple of String name of columns in time_series for x-axis nad y-axis
+        columns: Tuple of String name of columns in time_series for x-axis nad y-axis
         title: String title of plot
         labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
         to_plot: Boolean indicating whether to plot the time series or return the axes
@@ -76,7 +76,7 @@ def plot_time_series(time_series: pd.DataFrame,
     # Plot the data
     ax = sns.lineplot(data=time_series,
                       x=time_series[columns[0]],
-                      y=time_series[columns['1']],
+                      y=time_series[columns[1]],
                       label=labels[2])
 
     # Set title
@@ -124,11 +124,12 @@ def plot_predictions_vs_time_series(time_series: pd.DataFrame,
                                       to_plot=False)
 
     # Plot predictions
-    ax_predictions = sns.lineplot(x=time_series[x_column],
+    ax_predictions = sns.lineplot(x=time_series[columns[0]],
                                   y=predictions,
                                   label='Predictions',
                                   ax=ax_time_series)
 
+    # Define legend settings
     ax_predictions.legend(loc='upper center',
                           bbox_to_anchor=(0.5, 1.03),
                           fontsize=12,
