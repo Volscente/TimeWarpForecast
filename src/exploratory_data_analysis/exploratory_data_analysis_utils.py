@@ -83,7 +83,7 @@ def plot_time_series(time_series: pd.DataFrame,
                       y=time_series[columns[1]],
                       label=labels[2])
 
-    logger.info('plot_time_series - Set plot connfigurations')
+    logger.info('plot_time_series - Set plot configurations')
 
     # Set title
     ax.set_title(title,
@@ -107,7 +107,6 @@ def plot_time_series(time_series: pd.DataFrame,
 
     # Switch for plotting or returning the axes
     if to_plot:
-
         logger.info('plot_time_series - Calling the plt.show()')
 
         # Show plt
@@ -124,7 +123,8 @@ def plot_time_series(time_series: pd.DataFrame,
 def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
                                     columns: Tuple[str, str],
                                     title: str,
-                                    labels: Tuple[str, str, str]) -> matplotlib.axes.Axes:
+                                    labels: Tuple[str, str, str],
+                                    to_plot: bool) -> matplotlib.axes.Axes:
     """
     Plot the predicted values against the time series
 
@@ -133,6 +133,7 @@ def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
         columns: Tuple of String name of columns in time_series for x-axis nad y-axis
         title: String title of plot
         labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
+        to_plot: Boolean indicating whether to plot the time series or return the axes
 
     Returns:
         ax_predictions: matplotlib Axes with predicted values against the time series plot
@@ -167,11 +168,15 @@ def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
                           fontsize=12,
                           ncol=2)
 
-    # Show plt
-    plt.show()
+    # Switch for plotting or returning the axes
+    if to_plot:
+        logger.info('plot_predictions_vs_time_series - Calling the plt.show()')
 
-    # Define the layout
-    plt.tight_layout()
+        # Show plt
+        plt.show()
+
+        # Define the layout
+        plt.tight_layout()
 
     logger.info('plot_predictions_vs_time_series - End')
 
@@ -182,7 +187,7 @@ def plot_moving_average(time_series: pd.DataFrame,
                         rolling_settings: dict,
                         columns: Tuple[str, str],
                         title: str,
-                        labels: Tuple[str, str]) -> matplotlib.axes.Axes:
+                        labels: Tuple[str, str, str]) -> matplotlib.axes.Axes:
     """
 
     Args:
@@ -200,12 +205,12 @@ def plot_moving_average(time_series: pd.DataFrame,
     logger.info('plot_moving_average - Setting index')
 
     # Set index
-    time_series = time_series.set_index(columns[0])
+    time_series_indexed = time_series.set_index(columns[0])
 
     logger.info('plot_moving_average - Computing the moving average')
 
     # Compute moving average
-    moving_average = time_series.rolling(
+    moving_average = time_series_indexed.rolling(
         window=rolling_settings['window'],
         center=rolling_settings['center'],
         min_periods=rolling_settings['min_periods']
@@ -214,8 +219,37 @@ def plot_moving_average(time_series: pd.DataFrame,
     # Extract only relevant column
     moving_average = moving_average[columns[1]]
 
+    logger.info('plot_moving_average - Plot time series')
+
+    # Plot time series
+    ax_time_series = plot_time_series(time_series=time_series,
+                                      columns=columns,
+                                      title=title,
+                                      labels=(labels[0], labels[1], 'Time Series'),
+                                      to_plot=False)
+
     logger.info('plot_moving_average - Plot moving average')
 
-    # TODO: Call the plot_predictions_vs_time_series (Need to modify the function to:
-    #  1) Accept a label instead of "predictions"
-    #  2) Do not plot if not to_plot
+    # Plot moving average
+    ax_moving_average = sns.lineplot(x=time_series[columns[0]],
+                                     y=moving_average,
+                                     label=labels[2],
+                                     ax=ax_time_series)
+
+    logger.info('plot_moving_average - Set plot configurations')
+
+    # Define legend settings
+    ax_moving_average.legend(loc='upper center',
+                             bbox_to_anchor=(0.5, 1.03),
+                             fontsize=12,
+                             ncol=2)
+
+    # Show plt
+    plt.show()
+
+    # Define the layout
+    plt.tight_layout()
+
+    logger.info('plot_moving_average - End')
+
+    return ax_moving_average
