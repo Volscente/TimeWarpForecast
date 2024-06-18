@@ -121,25 +121,28 @@ def plot_time_series(time_series: pd.DataFrame,
     return ax
 
 
-def plot_predictions_vs_time_series(time_series: pd.DataFrame,
-                                    predictions: np.ndarray,
+def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
                                     columns: Tuple[str, str],
                                     title: str,
-                                    labels: Tuple[str, str]) -> matplotlib.axes.Axes:
+                                    labels: Tuple[str, str, str]) -> matplotlib.axes.Axes:
     """
     Plot the predicted values against the time series
 
     Args:
-        time_series: Pandas DataFrame with time series
-        predictions: Numpy array with predicted values
+        data: Tuple of Pandas DataFrame with time series and Numpy array with predicted values
         columns: Tuple of String name of columns in time_series for x-axis nad y-axis
         title: String title of plot
-        labels: Tuple of two strings containing labels for x-axis and y-axis and for the plot
+        labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
 
     Returns:
         ax_predictions: matplotlib Axes with predicted values against the time series plot
     """
     logger.info('plot_predictions_vs_time_series - Start')
+
+    logger.info('plot_predictions_vs_time_series - Extract time series and predictions')
+
+    # Extract time series and predictions from data
+    time_series, predictions = data[0], data[1]
 
     logger.info('plot_predictions_vs_time_series - Plot tim series')
 
@@ -155,7 +158,7 @@ def plot_predictions_vs_time_series(time_series: pd.DataFrame,
     # Plot predictions
     ax_predictions = sns.lineplot(x=time_series[columns[0]],
                                   y=predictions,
-                                  label='Predictions',
+                                  label=labels[2],
                                   ax=ax_time_series)
 
     # Define legend settings
