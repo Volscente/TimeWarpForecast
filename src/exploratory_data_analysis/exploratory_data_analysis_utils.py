@@ -189,16 +189,16 @@ def plot_moving_average(time_series: pd.DataFrame,
                         title: str,
                         labels: Tuple[str, str, str]) -> matplotlib.axes.Axes:
     """
+    Plot the moving average over time series
 
     Args:
-        time_series:
-        rolling_settings:
-        columns:
+        time_series: Pandas dataframe with time series
+        rolling_settings: Dictionary containing rolling settings for moving average
+        columns: Tuple of String name of columns in time_series for x-axis nad y-axis
         title:
         labels:
 
     Returns:
-
     """
     logger.info('plot_moving_average - Start')
 
@@ -253,3 +253,37 @@ def plot_moving_average(time_series: pd.DataFrame,
     logger.info('plot_moving_average - End')
 
     return ax_moving_average
+
+
+def plot_seasonality(X,
+                     y,
+                     period,
+                     freq,
+                     ax=None):
+    if ax is None:
+        _, ax = plt.subplots()
+    palette = sns.color_palette("husl", n_colors=X[period].nunique(),)
+    ax = sns.lineplot(
+        x=freq,
+        y=y,
+        hue=period,
+        data=X,
+        errorbar=('ci', False),
+        ax=ax,
+        palette=palette,
+        legend=False,
+    )
+    ax.set_title(f"Seasonal Plot ({period}/{freq})")
+    for line, name in zip(ax.lines, X[period].unique()):
+        y_ = line.get_ydata()[-1]
+        ax.annotate(
+            name,
+            xy=(1, y_),
+            xytext=(6, 0),
+            color=line.get_color(),
+            xycoords=ax.get_yaxis_transform(),
+            textcoords="offset points",
+            size=14,
+            va="center",
+        )
+    return ax
