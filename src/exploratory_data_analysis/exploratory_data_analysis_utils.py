@@ -232,7 +232,7 @@ def plot_moving_average(time_series: pd.DataFrame,
 
     # Plot moving average
     ax_moving_average = sns.lineplot(x=time_series[columns[0]],
-                                     y=moving_average,
+                                     y=moving_average.values,
                                      label=labels[2],
                                      ax=ax_time_series)
 
@@ -240,7 +240,7 @@ def plot_moving_average(time_series: pd.DataFrame,
 
     # Define legend settings
     ax_moving_average.legend(loc='upper center',
-                             bbox_to_anchor=(0.5, 1.03),
+                             bbox_to_anchor=(0.5, 0.95),
                              fontsize=12,
                              ncol=2)
 
