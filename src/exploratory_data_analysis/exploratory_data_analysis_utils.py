@@ -195,8 +195,8 @@ def plot_moving_average(time_series: pd.DataFrame,
         time_series: Pandas dataframe with time series
         rolling_settings: Dictionary containing rolling settings for moving average
         columns: Tuple of String name of columns in time_series for x-axis nad y-axis
-        title:
-        labels:
+        title: String title of the plot
+        labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
 
     Returns:
     """
