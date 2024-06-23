@@ -185,6 +185,17 @@ The above plot is also called **Correlogram**. It can be viewed as what the **Pe
 
 **NOTE:** Autocorrelation and Partial Autocorrelation works only for linear dependence.
 
+## Examples
+### Flu Trend
+Let's check another example of Lag Plots and Correlogram plot:
+
+![Flu Trend Lag Plots](./images/flu_trend_lag_plots.png)
+
+![Flu Trend Correlogram](./images/flu_trend_correlogram.png)
+
+We can see from the Lag Plots that the relationship between the target (Flu Visits) and its lags is mostly linear.
+In addition, from the correlogram, we can see that lags 1, 2, 3 and 4 have a good prediction power.
+
 # Modeling
 ## Time-Step & Lag Features
 The best time series models will usually include some combination of time-step features and lag feature.
