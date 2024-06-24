@@ -255,6 +255,7 @@ def plot_moving_average(time_series: pd.DataFrame,
     return ax_moving_average
 
 
+# TODO: Need fixing
 def plot_seasonality(X,
                      y,
                      period,
@@ -287,3 +288,29 @@ def plot_seasonality(X,
             va="center",
         )
     return ax
+
+
+def plot_lags(time_series, lags: int, subplot_settings: dict, y=None):
+
+    # Define figure and axes
+    figure, axes = plt.subplots(nrows=subplot_settings['nrows'],
+                                ncols=subplot_settings['nclos'],
+                                figsize=subplot_settings['figsize'],
+                                sharex=True,
+                                sharey=True,
+                                squeeze=False)
+
+    # Fetch lags to plot
+    for ax, k in zip(figure.get_axes(), range(subplot_settings['nrows'] * subplot_settings['ncols'])):
+
+        if k + 1 <= lags:
+            ax = lagplot(x, y, lag=k + 1, ax=ax, **lagplot_kwargs)
+            ax.set_title(f"Lag {k + 1}", fontdict=dict(fontsize=14))
+            ax.set(xlabel="", ylabel="")
+        else:
+            ax.axis('off')
+
+    plt.setp(axs[-1, :], xlabel=x.name)
+    plt.setp(axs[:, 0], ylabel=y.name if y is not None else x.name)
+    fig.tight_layout(w_pad=0.1, h_pad=0.1)
+    return fig
