@@ -311,4 +311,57 @@ def plot_single_lag(data: pd.Series,
     ax.add_artist(at)
     ax.set(title=f"Lag {lag_value}")
 
+    logger.info('plot_single_lag - End')
+
     return ax
+
+
+def plot_lags_series(data: pd.Series,
+                     number_lags: int,
+                     nrows: int,
+                     time_series_name: str) -> matplotlib.figure.Figure:
+    """
+    Plot a time series against a set of specific lag values with their correlation values
+
+    Args:
+        data: Pandas series with time series
+        number_lags: Integer indicating number of lags to plot
+        nrows: Integer indicating number of rows to plot
+        time_series_name: String indicating name of the time series
+
+    Returns:
+        figure: Matplotlib figure object
+    """
+    logger.info('plot_lags_series - Start')
+
+    # Compute the number of columns for the plot
+    ncols = math.ceil(number_lags / nrows)
+
+    # Plot settings
+    plot_settings = {
+        'nrows': nrows,
+        'ncols': ncols,
+        'figsize': (ncols * 2, nrows * 2 + 0.5),
+    }
+
+    # Define figure and axes
+    figure, axes = plt.subplots(sharex=True, sharey=True, squeeze=False, **plot_settings)
+
+    # Fetch the lags to plot
+    for axis, lag_value in zip(figure.get_axes(), range(nrows * ncols)):
+
+        # plot the lag
+        axis = plot_single_lag(data, lag_value=lag_value + 1, ax=axis)
+
+        # Set lag plot configurations
+        axis.set_title(f"Lag {lag_value + 1}", fontdict=dict(fontsize=14))
+        axis.set(xlabel="", ylabel="")
+
+    figure.suptitle(f'Lag Plot - {time_series_name}')
+
+    # Set the layout
+    figure.tight_layout(w_pad=0.1, h_pad=0.1)
+
+    logger.info('plot_lags_series - End')
+
+    return figure
