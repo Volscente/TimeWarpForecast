@@ -3,10 +3,12 @@ The module contains several util functions for performing exploratory data analy
 """
 # Import Standard Libraries
 import os
+import math
 from pathlib import Path
 from typing import Tuple
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.offsetbox import AnchoredText
 import pandas as pd
 import matplotlib
 import seaborn as sns
@@ -255,62 +257,58 @@ def plot_moving_average(time_series: pd.DataFrame,
     return ax_moving_average
 
 
-# TODO: Need fixing
-def plot_seasonality(X,
-                     y,
-                     period,
-                     freq,
-                     ax=None):
-    if ax is None:
-        _, ax = plt.subplots()
-    palette = sns.color_palette("husl", n_colors=X[period].nunique(),)
-    ax = sns.lineplot(
-        x=freq,
-        y=y,
-        hue=period,
-        data=X,
-        errorbar=('ci', False),
-        ax=ax,
-        palette=palette,
-        legend=False,
+def plot_single_lag(data: pd.Series,
+                    lag_value: int,
+                    ax: matplotlib.axes.Axes) -> matplotlib.axes.Axes:
+    """
+    Plot a time series against a specific lag with its correlation value
+
+    Args:
+        data: Pandas series with time series
+        lag_value: Integer indicating lag to plot
+        ax: Matplotlib Axes object
+
+    Returns:
+        ax: Matplotlib Axes object with lag plot
+    """
+    logger.info('plot_single_lag - Start')
+
+    # Create the lag data by shifting the time steps
+    lag_data = data.shift(lag_value)
+
+    # Compute correlation value
+    corr = data.corr(lag_data)
+
+    # Scatter plot settings
+    scatter_kws = dict(
+        alpha=0.75,
+        s=3,
     )
-    ax.set_title(f"Seasonal Plot ({period}/{freq})")
-    for line, name in zip(ax.lines, X[period].unique()):
-        y_ = line.get_ydata()[-1]
-        ax.annotate(
-            name,
-            xy=(1, y_),
-            xytext=(6, 0),
-            color=line.get_color(),
-            xycoords=ax.get_yaxis_transform(),
-            textcoords="offset points",
-            size=14,
-            va="center",
-        )
+
+    # Line plot settings
+    line_kws = dict(color='C3', )
+
+    logger.info('plot_single_lag - Plotting lag %s', lag_value)
+
+    # Plot the data
+    ax = sns.regplot(x=lag_data,
+                     y=data,
+                     scatter_kws=scatter_kws,
+                     line_kws=line_kws,
+                     lowess=True,
+                     ax=ax)
+
+    # Plot the correlation
+    at = AnchoredText(
+        f"{corr:.2f}",
+        prop=dict(size="large"),
+        frameon=True,
+        loc="upper left",
+    )
+
+    # Refine the plot settings
+    at.patch.set_boxstyle("square, pad=0.0")
+    ax.add_artist(at)
+    ax.set(title=f"Lag {lag_value}")
+
     return ax
-
-
-def plot_lags(time_series, lags: int, subplot_settings: dict, y=None):
-
-    # Define figure and axes
-    figure, axes = plt.subplots(nrows=subplot_settings['nrows'],
-                                ncols=subplot_settings['nclos'],
-                                figsize=subplot_settings['figsize'],
-                                sharex=True,
-                                sharey=True,
-                                squeeze=False)
-
-    # Fetch lags to plot
-    for ax, k in zip(figure.get_axes(), range(subplot_settings['nrows'] * subplot_settings['ncols'])):
-
-        if k + 1 <= lags:
-            ax = lagplot(x, y, lag=k + 1, ax=ax, **lagplot_kwargs)
-            ax.set_title(f"Lag {k + 1}", fontdict=dict(fontsize=14))
-            ax.set(xlabel="", ylabel="")
-        else:
-            ax.axis('off')
-
-    plt.setp(axs[-1, :], xlabel=x.name)
-    plt.setp(axs[:, 0], ylabel=y.name if y is not None else x.name)
-    fig.tight_layout(w_pad=0.1, h_pad=0.1)
-    return fig
