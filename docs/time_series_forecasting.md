@@ -196,10 +196,18 @@ Let's check another example of Lag Plots and Correlogram plot:
 We can see from the Lag Plots that the relationship between the target (Flu Visits) and its lags is mostly linear.
 In addition, from the correlogram, we can see that lags 1, 2, 3 and 4 have a good prediction power.
 
-#### Seasonal vs. Lag Features
+# Seasonal vs. Lag Features
+## Dynamic
 In the notebook `notebooks/flu_trends/exploratory_data_analysis.ipynb` it is possible to see that the 
 Time Series has irregular cycles. Lag Features work very well in this case, because they allow the forecaster to react 
 dynamically to changing conditions instead of being constrained to exact dates and times, like with seasonal features.
+
+## Reaction
+Lag Features require more time steps to react to the time series changes. This can be a limitation and
+it requires to carefully plan the future time steps to forecast.
+
+### Leading Indicators
+These are other time series that might show early indicators of changing in the target time series.
 
 # Modeling
 ## Time-Step & Lag Features
