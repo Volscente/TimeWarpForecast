@@ -218,3 +218,6 @@ Linear regression is widely used in practice and adapts naturally to even comple
 
 $` y = x_1 \cdot w_1 + \ldots + x_n \cdot w_n + b `$
 
+## Hybrid Models
+
+
