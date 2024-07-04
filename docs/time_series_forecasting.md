@@ -242,6 +242,31 @@ The learning process can be done by learning the single **components** of a time
 Adding together all the learned components will build the model. This is what a Linear Regression does when
 it is trained on a complete set of features of trend, seasons and cycles.
 
-### Hybrid Forecasting
+### Hybrid Forecasting Theory
 It is possible to use one algorithm upon certain components and another one upon the remaining ones.
 This allows to always choose the best algorithm for a specific component.
+
+The process involves training one model over the original time series and another one over the residuals:
+
+```python
+# 1. Train and predict with first model
+model_1.fit(X_train_1, y_train)
+y_pred_1 = model_1.predict(X_train)
+
+# 2. Train and predict with second model on residuals
+model_2.fit(X_train_2, y_train - y_pred_1)
+y_pred_2 = model_2.predict(X_train_2)
+
+# 3. Add to get overall predictions
+y_pred = y_pred_1 + y_pred_2
+```
+
+The set of features in `X_train_1` and `X_train_2` is not the same. For example, the `X_train_1` might contain trend features,
+while `X_train_2` might have seasonality and cycle features.
+
+### Design Hybrid Forecaster
+In practice, two models are just fine:
+1. Linear model to learn trend
+2. Complex non-linear model like GBDTs or a deep neural network for seasonality and cycles
+
+The first simple linear model is ofter referred as a "helper" model for the more subsequent powerful one that follows.
