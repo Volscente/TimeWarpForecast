@@ -219,5 +219,29 @@ Linear regression is widely used in practice and adapts naturally to even comple
 $` y = x_1 \cdot w_1 + \ldots + x_n \cdot w_n + b `$
 
 ## Hybrid Models
+### Introduction
+Linear Regression is useful for extrapolating trends, while XGBoost excels at learning interactions. 
+These two approaches can be combined in order to create a **Hybrid** forecaster.
 
+### Components and Residuals
+A time series can bne described as: `series = trend + seasonalities + cycles + error(unpredictable part)`.
 
+These are called the **Components** of a time series.
+
+The **Residuals** of a model are the difference between the labels the models was trained on and the predictions the
+models makes. They are essentially what the model failed to learned about the target from the features.
+
+The learning process can be done by learning the single **components** of a time series in a **residuals** fashion:
+1. Learn the trend and subtract it out from the time series
+2. Learn the seasonality and subtract it out from the previous residuals of the time series
+3. Learn the cycle and subtract
+4. Learn the error
+
+![Learn with Components and Residuals](./images/learn_components_residuals.png)
+
+Adding together all the learned components will build the model. This is what a Linear Regression does when
+it is trained on a complete set of features of trend, seasons and cycles.
+
+### Hybrid Forecasting
+It is possible to use one algorithm upon certain components and another one upon the remaining ones.
+This allows to always choose the best algorithm for a specific component.
