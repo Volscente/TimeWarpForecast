@@ -3,6 +3,7 @@ This test module includes all the fixtures necessary
 for running PyTest tests
 """
 # Import Standard Libraries
+import pandas as pd
 import pathlib
 import pytest
 
@@ -67,15 +68,19 @@ def fixture_test_boosted_hybrid_model_data(
         data_config: Dictionary of data configuration
 
     Returns:
-        test_boosted_hybrid_model_data: Pandas DataFrame test data for a Boosted Hybrid Model
+        data: Pandas DataFrame test data for a Boosted Hybrid Model
     """
     # Read data
-    test_boosted_hybrid_model_data = read_data_from_config(data_config)
+    data = read_data_from_config(data_config)
 
     # Set Index
-    test_boosted_hybrid_model_data.index = test_boosted_hybrid_model_data['Month']
+    data.index = data['Month']
 
-    # Convert index to 'Day' period
-    #test_boosted_hybrid_model_data = test_boosted_hybrid_model_data.to_period('D').reindex
+    # Convert index to 'Day' period and reindex with only required columns
+    data = data.to_period('D').reindex(columns=['BuildingMaterials',
+                                                'FoodAndBeverage'])
 
-    return test_boosted_hybrid_model_data
+    # Refine dataframe structure
+    data = pd.concat({'Sales': data}, names=[None, 'Industries'], axis=1)
+
+    return data
