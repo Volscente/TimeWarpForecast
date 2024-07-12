@@ -3,6 +3,7 @@ The module contains object classes for the Model Training pipelines and componen
 """
 # Import Standard Libraries
 import pathlib
+import pandas as pd
 from sklearn.linear_model import LinearRegression
 from xgboost import XGBRegressor
 
@@ -23,7 +24,70 @@ class BoostedHybridModel:
     def __init__(self,
                  linear_model: LinearRegression,
                  non_linear_model: XGBRegressor):
-        pass
+        """
+        Constructor for the BoostedHybridModel class
 
-    def fit(self, X, y):
-        pass
+        Args:
+            linear_model: Linear model to extract trend component
+            non_linear_model: Non-linear model to extract seasonality & cycle components
+        """
+        # Setup logger
+        self.logger = get_logger(__class__.__name__,
+                                 pathlib.Path(__file__).parents[1] /
+                                 'logging_module' /
+                                 'log_configuration.yaml')
+
+        self.logger.info('__init__ - Initialise object attributes')
+
+        # Initialise object attributes
+        self.linear_model = linear_model
+        self.non_linear_model = non_linear_model
+
+    def fit(self,
+            trend_features,
+            serial_features,
+            y):
+        """
+        Fits the model to time series data
+
+        Args:
+            trend_features:
+            serial_features:
+            y:
+
+        Returns:
+
+        """
+        self.logger.info('fit - Start')
+
+        self.logger.info('fit - Fit linear model')
+
+        # Fit the linear model
+        self.linear_model.fit(trend_features, y)
+
+        self.logger.info('fit - Compute predictions')
+
+        # Compute predictions of the Linear model to then calculate residuals
+        self.linear_model_predictions = pd.DataFrame(
+            self.linear_model.predict(trend_features),
+            index=trend_features.index,
+            columns=y.columns
+        )
+
+        self.logger.info('fit - Calculate residuals')
+
+        # Calculate residuals
+        self.residuals = y - self.linear_model_predictions
+
+        # Stack residuals to fit a non-linear model
+        self.residuals = self.residuals.stack().squeeze()
+
+        self.logger.info('fit - Fit Non-linear model')
+
+        # Fit the non-linear model on residuals
+        self.non_linear_model.fit(serial_features, self.residuals)
+
+        # Save column names
+        self.y_column_names = y.columns
+
+        self.logger.info('fit - End')

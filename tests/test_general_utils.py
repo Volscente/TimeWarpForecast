@@ -1,6 +1,6 @@
 """
 This test module includes all the tests for the
-module src.general.general_utils
+module src.general_utils.general_utils
 """
 # Import Standard Modules
 import pathlib

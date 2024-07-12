@@ -7,7 +7,10 @@ import pathlib
 import pytest
 
 # Import Package Modules
-from src.general_utils.general_utils import read_configuration
+from src.general_utils.general_utils import (
+    read_configuration,
+    read_data_from_config
+)
 
 # Read configuration file
 configuration = read_configuration(pathlib.Path(__file__).parents[1]
@@ -51,3 +54,28 @@ def fixture_exception_data_config(test_exception_data_config: dict = configurati
     """
 
     return test_exception_data_config
+
+
+@pytest.fixture
+def fixture_test_boosted_hybrid_model_data(
+        data_config: dict = configuration['test_boosted_hybrid_model_data_config']
+) -> bool:
+    """
+    Fixture for Pandas DataFrame test data for a Boosted Hybrid Model
+
+    Args:
+        data_config: Dictionary of data configuration
+
+    Returns:
+        test_boosted_hybrid_model_data: Pandas DataFrame test data for a Boosted Hybrid Model
+    """
+    # Read data
+    test_boosted_hybrid_model_data = read_data_from_config(data_config)
+
+    # Set Index
+    test_boosted_hybrid_model_data.index = test_boosted_hybrid_model_data['Month']
+
+    # Convert index to 'Day' period
+    #test_boosted_hybrid_model_data = test_boosted_hybrid_model_data.to_period('D').reindex
+
+    return test_boosted_hybrid_model_data
