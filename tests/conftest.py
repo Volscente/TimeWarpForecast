@@ -88,6 +88,7 @@ def fixture_test_boosted_hybrid_model_data(
 
     return data
 
+
 @pytest.fixture
 def fixture_test_boosted_hybrid_model():
     """

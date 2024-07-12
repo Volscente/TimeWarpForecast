@@ -87,7 +87,7 @@ class BoostedHybridModel:
         # Stack residuals to fit a non-linear model
         self.residuals = self.residuals.stack().squeeze()
 
-        self.logger.info('fit - Fit Non-linear model')
+        self.logger.info('fit - Fit Non-linear model on serial features with residuals as target')
 
         # Fit the non-linear model on residuals
         self.non_linear_model.fit(serial_features, self.residuals)
