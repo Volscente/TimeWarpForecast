@@ -7,10 +7,10 @@ import math
 from pathlib import Path
 from typing import Tuple
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import AnchoredText
 import pandas as pd
-import matplotlib
 import seaborn as sns
 
 # Import Package Modules
@@ -185,6 +185,65 @@ def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
     return ax_predictions
 
 
+def plot_single_lag(data: pd.Series,
+                    lag_value: int,
+                    ax: matplotlib.axes.Axes) -> matplotlib.axes.Axes:
+    """
+    Plot a time series against a specific lag with its correlation value
+
+    Args:
+        data: Pandas series with time series
+        lag_value: Integer indicating lag to plot
+        ax: Matplotlib Axes object
+
+    Returns:
+        ax: Matplotlib Axes object with lag plot
+    """
+    logger.info('plot_single_lag - Start')
+
+    # Create the lag data by shifting the time steps
+    lag_data = data.shift(lag_value)
+
+    # Compute correlation value
+    corr = data.corr(lag_data)
+
+    # Scatter plot settings
+    scatter_kws = {
+        'alpha': 0.75,
+        's': 3
+    }
+
+    # Line plot settings
+    line_kws = {'color': 'C3'}
+
+    logger.info('plot_single_lag - Plotting lag %s', lag_value)
+
+    # Plot the data
+    ax = sns.regplot(x=lag_data,
+                     y=data,
+                     scatter_kws=scatter_kws,
+                     line_kws=line_kws,
+                     lowess=True,
+                     ax=ax)
+
+    # Plot the correlation
+    at = AnchoredText(
+        f"{corr:.2f}",
+        prop={'size': 'large'},
+        frameon=True,
+        loc="upper left",
+    )
+
+    # Refine the plot settings
+    at.patch.set_boxstyle("square, pad=0.0")
+    ax.add_artist(at)
+    ax.set(title=f"Lag {lag_value}")
+
+    logger.info('plot_single_lag - End')
+
+    return ax
+
+
 def plot_moving_average(time_series: pd.DataFrame,
                         rolling_settings: dict,
                         columns: Tuple[str, str],
@@ -257,65 +316,6 @@ def plot_moving_average(time_series: pd.DataFrame,
     return ax_moving_average
 
 
-def plot_single_lag(data: pd.Series,
-                    lag_value: int,
-                    ax: matplotlib.axes.Axes) -> matplotlib.axes.Axes:
-    """
-    Plot a time series against a specific lag with its correlation value
-
-    Args:
-        data: Pandas series with time series
-        lag_value: Integer indicating lag to plot
-        ax: Matplotlib Axes object
-
-    Returns:
-        ax: Matplotlib Axes object with lag plot
-    """
-    logger.info('plot_single_lag - Start')
-
-    # Create the lag data by shifting the time steps
-    lag_data = data.shift(lag_value)
-
-    # Compute correlation value
-    corr = data.corr(lag_data)
-
-    # Scatter plot settings
-    scatter_kws = dict(
-        alpha=0.75,
-        s=3,
-    )
-
-    # Line plot settings
-    line_kws = dict(color='C3', )
-
-    logger.info('plot_single_lag - Plotting lag %s', lag_value)
-
-    # Plot the data
-    ax = sns.regplot(x=lag_data,
-                     y=data,
-                     scatter_kws=scatter_kws,
-                     line_kws=line_kws,
-                     lowess=True,
-                     ax=ax)
-
-    # Plot the correlation
-    at = AnchoredText(
-        f"{corr:.2f}",
-        prop=dict(size="large"),
-        frameon=True,
-        loc="upper left",
-    )
-
-    # Refine the plot settings
-    at.patch.set_boxstyle("square, pad=0.0")
-    ax.add_artist(at)
-    ax.set(title=f"Lag {lag_value}")
-
-    logger.info('plot_single_lag - End')
-
-    return ax
-
-
 def plot_lags_series(data: pd.Series,
                      number_lags: int,
                      nrows: int,
@@ -345,7 +345,7 @@ def plot_lags_series(data: pd.Series,
     }
 
     # Define figure and axes
-    figure, axes = plt.subplots(sharex=True, sharey=True, squeeze=False, **plot_settings)
+    figure, _ = plt.subplots(sharex=True, sharey=True, squeeze=False, **plot_settings)
 
     # Fetch the lags to plot
     for axis, lag_value in zip(figure.get_axes(), range(nrows * ncols)):
@@ -354,7 +354,7 @@ def plot_lags_series(data: pd.Series,
         axis = plot_single_lag(data, lag_value=lag_value + 1, ax=axis)
 
         # Set lag plot configurations
-        axis.set_title(f"Lag {lag_value + 1}", fontdict=dict(fontsize=14))
+        axis.set_title(f"Lag {lag_value + 1}", fontdict={'fontsize': 14})
         axis.set(xlabel="", ylabel="")
 
     figure.suptitle(f'Lag Plot - {time_series_name}')

@@ -43,6 +43,11 @@ class BoostedHybridModel:
         self.linear_model = linear_model
         self.non_linear_model = non_linear_model
 
+        # Initialise empty attributes
+        self.linear_model_predictions = None
+        self.residuals = None
+        self.y_column_names = None
+
     def fit(self,
             trend_features,
             serial_features,

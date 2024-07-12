@@ -3,8 +3,8 @@ This test module includes all the fixtures necessary
 for running PyTest tests
 """
 # Import Standard Libraries
-import pandas as pd
 import pathlib
+import pandas as pd
 import pytest
 
 # Import Package Modules
