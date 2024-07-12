@@ -6,12 +6,15 @@ for running PyTest tests
 import pathlib
 import pandas as pd
 import pytest
+from sklearn.linear_model import LinearRegression
+from xgboost import XGBRegressor
 
 # Import Package Modules
 from src.general_utils.general_utils import (
     read_configuration,
     read_data_from_config
 )
+from src.model_training.model_training import BoostedHybridModel
 
 # Read configuration file
 configuration = read_configuration(pathlib.Path(__file__).parents[1]
@@ -84,3 +87,17 @@ def fixture_test_boosted_hybrid_model_data(
     data = pd.concat({'Sales': data}, names=[None, 'Industries'], axis=1)
 
     return data
+
+@pytest.fixture
+def fixture_test_boosted_hybrid_model():
+    """
+    Fixture for an object of class src.model_training.model_training.BoostedHybridModel
+
+    Returns:
+        model: BoostedHybridModel object instance
+    """
+    # Instance the object
+    model = BoostedHybridModel(LinearRegression(),
+                               XGBRegressor())
+
+    return model
