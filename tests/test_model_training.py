@@ -4,8 +4,6 @@ module src.model_training.model_training
 """
 # Import Standard Modules
 import pandas as pd
-import pathlib
-import pytest
 from statsmodels.tsa.deterministic import DeterministicProcess
 
 # Import Package Modules
