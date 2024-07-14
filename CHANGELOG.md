@@ -1,3 +1,14 @@
+v.0.1.2
+------
+- [x] Update `time_series_forecasting.md` in `docs`
+- [x] Add Data `us_retail_sales.csv` in `data/raw`
+- [x] Add Notebook `us_retrail_sales.ipynb` in `notebooks/hybrid_models`
+- [x] Add Class `BoostedHybridModel` in `src.model_training.model_training.py`
+- [x] Add PyTest Fixture `fixture_test_boosted_hybrid_model_data` in `tests/conftest.py`
+- [x] Add PyTest Fixture `fixture_test_boosted_hybrid_model` in `tests/conftest.py`
+- [x] Add function `fit` in class `BoostedHybridModel`
+- [x] Add PyTest `test_boosted_hybrid_model_fit` in `tests/test_model_training.py`
+
 v.0.1.1
 ------
 - [x] Add `time_series_forecasting.md` in `docs`

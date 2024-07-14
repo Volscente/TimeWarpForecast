@@ -12,6 +12,7 @@ from statsmodels.tsa.deterministic import DeterministicProcess
 from src.model_training.model_training import BoostedHybridModel
 
 
+# TODO: Fix the test function
 def test_boosted_hybrid_model_fit(fixture_test_boosted_hybrid_model_data: pd.DataFrame,
                                   fixture_test_boosted_hybrid_model: BoostedHybridModel) -> bool:
     """
