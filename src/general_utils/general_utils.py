@@ -114,12 +114,23 @@ def read_data_from_config(data_config: dict) -> pd.DataFrame:
 
     logger.info('read_data_from_config - Retrieved data path %s', data_path.as_posix())
 
-    logger.info('read_data_from_config - Reading data')
+    # Switch if date columns have to be parsed
+    if 'date_columns' in data_config.keys():
 
-    # Read data with Pandas
-    data = pd.read_csv(data_path,
-                       sep=data_config['delimiter'],
-                       parse_dates=data_config['date_columns'])
+        logger.info('read_data_from_config - Reading data with date columns')
+
+        # Read data with Pandas
+        data = pd.read_csv(data_path,
+                           sep=data_config['delimiter'],
+                           parse_dates=data_config['date_columns'])
+
+    else:
+
+        logger.info('read_data_from_config - Reading data without date columns')
+
+        # Read data with Pandas
+        data = pd.read_csv(data_path,
+                           sep=data_config['delimiter'])
 
     logger.info('read_data_from_config - Successfully read data with %s rows and %s columns',
                 len(data), len(data.columns))

@@ -4,10 +4,17 @@ for running PyTest tests
 """
 # Import Standard Libraries
 import pathlib
+import pandas as pd
 import pytest
+from sklearn.linear_model import LinearRegression
+from xgboost import XGBRegressor
 
 # Import Package Modules
-from src.general_utils.general_utils import read_configuration
+from src.general_utils.general_utils import (
+    read_configuration,
+    read_data_from_config
+)
+from src.model_training.model_training import BoostedHybridModel
 
 # Read configuration file
 configuration = read_configuration(pathlib.Path(__file__).parents[1]
@@ -51,3 +58,47 @@ def fixture_exception_data_config(test_exception_data_config: dict = configurati
     """
 
     return test_exception_data_config
+
+
+@pytest.fixture
+def fixture_test_boosted_hybrid_model_data(
+        data_config: dict = configuration['test_boosted_hybrid_model_data_config']
+) -> bool:
+    """
+    Fixture for Pandas DataFrame test data for a Boosted Hybrid Model
+
+    Args:
+        data_config: Dictionary of data configuration
+
+    Returns:
+        data: Pandas DataFrame test data for a Boosted Hybrid Model
+    """
+    # Read data
+    data = read_data_from_config(data_config)
+
+    # Set Index
+    data.index = data['Month']
+
+    # Convert index to 'Day' period and reindex with only required columns
+    data = data.to_period('D').reindex(columns=['BuildingMaterials',
+                                                'FoodAndBeverage'])
+
+    # Refine dataframe structure
+    data = pd.concat({'Sales': data}, names=[None, 'Industries'], axis=1)
+
+    return data
+
+
+@pytest.fixture
+def fixture_test_boosted_hybrid_model():
+    """
+    Fixture for an object of class src.model_training.model_training.BoostedHybridModel
+
+    Returns:
+        model: BoostedHybridModel object instance
+    """
+    # Instance the object
+    model = BoostedHybridModel(LinearRegression(),
+                               XGBRegressor())
+
+    return model

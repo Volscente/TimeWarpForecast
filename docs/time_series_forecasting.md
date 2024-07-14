@@ -185,6 +185,30 @@ The above plot is also called **Correlogram**. It can be viewed as what the **Pe
 
 **NOTE:** Autocorrelation and Partial Autocorrelation works only for linear dependence.
 
+## Examples
+### Flu Trend
+Let's check another example of Lag Plots and Correlogram plot:
+
+![Flu Trend Lag Plots](./images/flu_trend_lag_plots.png)
+
+![Flu Trend Correlogram](./images/flu_trend_correlogram.png)
+
+We can see from the Lag Plots that the relationship between the target (Flu Visits) and its lags is mostly linear.
+In addition, from the correlogram, we can see that lags 1, 2, 3 and 4 have a good prediction power.
+
+# Seasonal vs. Lag Features
+## Dynamic
+In the notebook `notebooks/flu_trends/exploratory_data_analysis.ipynb` it is possible to see that the 
+Time Series has irregular cycles. Lag Features work very well in this case, because they allow the forecaster to react 
+dynamically to changing conditions instead of being constrained to exact dates and times, like with seasonal features.
+
+## Reaction
+Lag Features require more time steps to react to the time series changes. This can be a limitation and
+it requires to carefully plan the future time steps to forecast.
+
+### Leading Indicators
+These are other time series that might show early indicators of changing in the target time series.
+
 # Modeling
 ## Time-Step & Lag Features
 The best time series models will usually include some combination of time-step features and lag feature.
@@ -194,3 +218,55 @@ Linear regression is widely used in practice and adapts naturally to even comple
 
 $` y = x_1 \cdot w_1 + \ldots + x_n \cdot w_n + b `$
 
+## Hybrid Models
+### Introduction
+Linear Regression is useful for extrapolating trends, while XGBoost excels at learning interactions. 
+These two approaches can be combined in order to create a **Hybrid** forecaster.
+
+### Components and Residuals
+A time series can bne described as: `series = trend + seasonalities + cycles + error(unpredictable part)`.
+
+These are called the **Components** of a time series.
+
+The **Residuals** of a model are the difference between the labels the models was trained on and the predictions the
+models makes. They are essentially what the model failed to learned about the target from the features.
+
+The learning process can be done by learning the single **components** of a time series in a **residuals** fashion:
+1. Learn the trend and subtract it out from the time series
+2. Learn the seasonality and subtract it out from the previous residuals of the time series
+3. Learn the cycle and subtract
+4. Learn the error
+
+![Learn with Components and Residuals](./images/learn_components_residuals.png)
+
+Adding together all the learned components will build the model. This is what a Linear Regression does when
+it is trained on a complete set of features of trend, seasons and cycles.
+
+### Hybrid Forecasting Theory
+It is possible to use one algorithm upon certain components and another one upon the remaining ones.
+This allows to always choose the best algorithm for a specific component.
+
+The process involves training one model over the original time series and another one over the residuals:
+
+```python
+# 1. Train and predict with first model
+model_1.fit(X_train_1, y_train)
+y_pred_1 = model_1.predict(X_train)
+
+# 2. Train and predict with second model on residuals
+model_2.fit(X_train_2, y_train - y_pred_1)
+y_pred_2 = model_2.predict(X_train_2)
+
+# 3. Add to get overall predictions
+y_pred = y_pred_1 + y_pred_2
+```
+
+The set of features in `X_train_1` and `X_train_2` is not the same. For example, the `X_train_1` might contain trend features,
+while `X_train_2` might have seasonality and cycle features.
+
+### Design Hybrid Forecaster
+In practice, two models are just fine:
+1. Linear model to learn trend
+2. Complex non-linear model like GBDTs or a deep neural network for seasonality and cycles
+
+The first simple linear model is ofter referred as a "helper" model for the more subsequent powerful one that follows.

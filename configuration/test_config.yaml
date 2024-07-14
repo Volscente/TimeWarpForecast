@@ -20,3 +20,13 @@ test_exception_data_config:
   date_columns:
     - 'test_date'
   delimiter: ','
+
+# Test Boosted Hybrid Model Data Config
+test_boosted_hybrid_model_data_config:
+  data_path:
+    - 'data'
+    - 'test'
+    - 'test_boosted_hybrid_model_data.csv'
+  date_columns:
+    - 'Month'
+  delimiter: ','
