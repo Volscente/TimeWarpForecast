@@ -7,7 +7,6 @@ v.0.1.2
 - [x] Add PyTest Fixture `fixture_test_boosted_hybrid_model_data` in `tests/conftest.py`
 - [x] Add PyTest Fixture `fixture_test_boosted_hybrid_model` in `tests/conftest.py`
 - [x] Add function `fit` in class `BoostedHybridModel`
-- [x] Add PyTest `test_boosted_hybrid_model_fit` in `tests/test_model_training.py`
 
 v.0.1.1
 ------
