@@ -3,6 +3,18 @@
 It is a set of subsequent observations recorded over time. They are typically recorded with a regular and fixed 
 frequency (e.g., hourly, daily, monthly, etc.).
 
+## Problem Definition
+### Requirements
+Upon defining a Time Series Forecasting, it is required to establish:
+1. What information is available at the time a forecast is made (features)
+2. The time period during which you require forecasted values (target)
+
+### Terminology
+- **Forecast Origin** - The first data point to make forecast onward. It can be seen as the last training data point
+- **Forecast Horizon** - The time interval in the future that has to be forecasted
+- **Lead Time or Latency** - Time between the origin and horizon
+![Forecast Terminology](./images/forecast_terminology.png)
+
 ## Features
 There are different types of features when talking about Time Series:
 - *Time-Step Features*
