@@ -282,3 +282,5 @@ In practice, two models are just fine:
 2. Complex non-linear model like GBDTs or a deep neural network for seasonality and cycles
 
 The first simple linear model is ofter referred as a "helper" model for the more subsequent powerful one that follows.
+
+## Multistep Forecasting Strategies
