@@ -3,6 +3,18 @@
 It is a set of subsequent observations recorded over time. They are typically recorded with a regular and fixed 
 frequency (e.g., hourly, daily, monthly, etc.).
 
+## Problem Definition
+### Requirements
+Upon defining a Time Series Forecasting, it is required to establish:
+1. What information is available at the time a forecast is made (features)
+2. The time period during which you require forecasted values (target)
+
+### Terminology
+- **Forecast Origin** - The first data point to make forecast onward. It can be seen as the last training data point
+- **Forecast Horizon** - The time interval in the future that has to be forecasted
+- **Lead Time or Latency** - Time between the origin and horizon
+![Forecast Terminology](./images/forecast_terminology.png)
+
 ## Features
 There are different types of features when talking about Time Series:
 - *Time-Step Features*
@@ -270,3 +282,39 @@ In practice, two models are just fine:
 2. Complex non-linear model like GBDTs or a deep neural network for seasonality and cycles
 
 The first simple linear model is ofter referred as a "helper" model for the more subsequent powerful one that follows.
+
+## Multistep Forecasting Strategies
+### Definition
+It is a model that can predict multiple target steps.
+There are four different strategies to model such a forecast.
+
+### Strategies
+**1. Multi-output Model**
+The first strategy is to use a model that can handle multiple outputs naturally (e.g., Linear Regression and Neural Networks).
+However, algorithms like XGBoost can not do that.
+
+![Multi-Output Model](./images/multi_output_model.png)
+
+**2. Direct Strategy**
+Train a separate model for each step in the **Forecast Horizon**. While this approach can be very precise, it is also
+very computationally expensive.
+
+![Direct Strategy](./images/direct_strategy.png)
+
+**3. Recursive Strategy**
+Train a single one-step model and use its forecasts to update the lag features for the next step. This is necessary,
+since one problem with lag features is that they might not be available for a defined time step 
+(e.g., it is not available for the time step number "6" in the below figure).
+
+![Recursive Strategy](./images/recursive_strategy.png)
+
+The main drawback, is that errors will propagate from step to step.
+
+**4. DirRec Strategy**
+A combination of the direct and recursive strategies: train a model for each step and use forecasts from 
+previous steps as new lag features.
+
+![DirRec Strategy](./images/dirrec_strategy.png)
+
+DirRec strategy can capture serial dependence better than Direct Strategy, 
+but it can also suffer from error propagation like Recursive Strategy.
