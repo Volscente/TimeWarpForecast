@@ -1,0 +1,25 @@
+# -------- Exploratory Data Analysis --------
+plot_characteristics:
+  style: 'whitegrid'
+  color_palette: 'deep'
+  theme_parameters:
+    axes_spines_right: False
+    axes_spines_top: False
+    grid_alpha: 0.3
+    figure_figsize:
+      - 16
+      - 6
+    font_family: 'Andale Mono'
+    axes_titlesize: 24
+    figure_facecolor: '#E5E8E8'
+    axes_facecolor: '#E5E8E8'
+
+dataset_config:
+  data_path:
+    - 'data'
+    - 'raw'
+    - 'flu_trends.csv'
+  delimiter: ','
+  date_columns:
+    - 'Week'
+# ------------------------------------------

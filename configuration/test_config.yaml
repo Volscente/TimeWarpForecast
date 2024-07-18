@@ -1,0 +1,32 @@
+# Test value
+test_value: 1
+
+# Test Data Config
+test_data_config:
+  data_path:
+    - 'data'
+    - 'test'
+    - 'test_data.csv'
+  date_columns:
+    - 'test_date'
+  delimiter: ','
+
+# Test Exception Data Config
+test_exception_data_config:
+  data_path:
+    - 'data'
+    - 'test'
+    - 'wrong_test_data.csv'
+  date_columns:
+    - 'test_date'
+  delimiter: ','
+
+# Test Boosted Hybrid Model Data Config
+test_boosted_hybrid_model_data_config:
+  data_path:
+    - 'data'
+    - 'test'
+    - 'test_boosted_hybrid_model_data.csv'
+  date_columns:
+    - 'Month'
+  delimiter: ','
