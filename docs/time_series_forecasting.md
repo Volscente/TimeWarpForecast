@@ -236,7 +236,7 @@ Linear Regression is useful for extrapolating trends, while XGBoost excels at le
 These two approaches can be combined in order to create a **Hybrid** forecaster.
 
 ### Components and Residuals
-A time series can bne described as: `series = trend + seasonalities + cycles + error(unpredictable part)`.
+A time series can be described as: `series = trend + seasonalities + cycles + error(unpredictable part)`.
 
 These are called the **Components** of a time series.
 
@@ -253,6 +253,9 @@ The learning process can be done by learning the single **components** of a time
 
 Adding together all the learned components will build the model. This is what a Linear Regression does when
 it is trained on a complete set of features of trend, seasons and cycles.
+
+One way to extract such components is the **Hodrick-Prescott** filter, which is used to separate the trend component
+from the cyclic component of a time series.
 
 ### Hybrid Forecasting Theory
 It is possible to use one algorithm upon certain components and another one upon the remaining ones.
@@ -318,3 +321,7 @@ previous steps as new lag features.
 
 DirRec strategy can capture serial dependence better than Direct Strategy, 
 but it can also suffer from error propagation like Recursive Strategy.
+
+
+# Libraries
+## Statsmodels
