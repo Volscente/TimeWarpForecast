@@ -230,10 +230,25 @@ Linear regression is widely used in practice and adapts naturally to even comple
 
 $` y = x_1 \cdot w_1 + \ldots + x_n \cdot w_n + b `$
 
-## Hybrid Models
+## Hybrid Models or ETS Models
 ### Introduction
 Linear Regression is useful for extrapolating trends, while XGBoost excels at learning interactions. 
 These two approaches can be combined in order to create a **Hybrid** forecaster.
+
+Sometimes these models are also called ETS: **Error-Trend-Seasonality**.
+They are able to model a Time Series by decomposing it into three main components:
+- **Error/Resisduals**: it represents the random fluctuations or noise
+- **Trend**
+- **Seasonality**
+
+Some of these ETS models are:
+- *Exponential Smoothing*
+- *Trend Methods Models*
+- *ETS Decomposition*
+
+ETS models can be:
+- **Additive** - The trend is more linear and trend + seasonality components seem constant over time
+- **Multiplicative** - It is useful to model non-linear components
 
 ### Components and Residuals
 A time series can be described as: `series = trend + seasonalities + cycles + error(unpredictable part)`.
