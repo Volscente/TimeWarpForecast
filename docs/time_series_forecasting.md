@@ -50,7 +50,7 @@ The trend is the slowest-moving part of a series, the part representing the larg
 One of the most common trend is in the **mean**.
 
 ## Moving Average Plot
-It is a technique used to see what kind of trend a time series might have. 
+It is a technique used to see what kind of trend a time series might have and, in a very naive way, even to model a time series. 
 It is plotted by computing the average of the values within a sliding window of some defined width.
 
 ![Moving Average](./images/moving_average.png)
@@ -337,6 +337,9 @@ previous steps as new lag features.
 DirRec strategy can capture serial dependence better than Direct Strategy, 
 but it can also suffer from error propagation like Recursive Strategy.
 
-
-# Libraries
-## Statsmodels
+## Exponentially Weighted Moving Average
+### Definition
+Unlike Simple Moving Averages (or Moving Average), which give equal weight to all observations in a window, 
+EWMA gives exponentially decreasing weights to older observations. 
+This makes the EWMA more sensitive to recent changes in the data, 
+which can be particularly useful for detecting trends and patterns.
