@@ -343,3 +343,17 @@ Unlike Simple Moving Averages (or Moving Average), which give equal weight to al
 EWMA gives exponentially decreasing weights to older observations. 
 This makes the EWMA more sensitive to recent changes in the data, 
 which can be particularly useful for detecting trends and patterns.
+
+### Strategy
+It uses a single smoothing factors "alpha".
+
+## Holt-Winters Methods
+### Definition
+It models a time series using three different equations, each one covers a component:
+- l_t: level (alpha smoothing parameter)
+- b_t: trend (beta smoothing parameter)
+- s_t: seasonality (gamma smoothing parameter)
+
+### Strategies
+- Double Exponential Smoothing (level + trend components)
+- Triple Exponential Smoothing (level + trend + seasonality components)
