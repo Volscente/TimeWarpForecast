@@ -41,6 +41,10 @@ The Lag features model the so-called **Serial Dependence**: time series has seri
 observation can be predicted from previous observations. In *Hardcover Sales*, we can predict that high sales on one 
 day usually mean high sales the next day.
 
+### Stationary
+A Time Series is said to be *Stationary* is it does not exhibit any Trend or Seasonality.
+Any fluctuations within the Time Series are related to the noise or random elements.
+
 # Trend
 The **Trend** component of a time series represents a persistent, long-term change in the mean of the series.
 The trend is the slowest-moving part of a series, the part representing the largest timescale of importance.
@@ -357,3 +361,16 @@ It models a time series using three different equations, each one covers a compo
 ### Strategies
 - Double Exponential Smoothing (level + trend components)
 - Triple Exponential Smoothing (level + trend + seasonality components)
+
+# Evaluation
+## Introduction
+It is possible to evaluate the Time Series Forecasting model through standard Regression metrics:
+- Mean Absolute Error
+- Root Mean Square Error
+- Etc.
+
+## Interpret the Results
+It is never easy to interpret the results of Regression problems, since every metric comes with its flaws.
+
+A rule of thumb is: if the Root Mean Square Error is less than the Standard Deviation, the model is performing quite okay.
+
