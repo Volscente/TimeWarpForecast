@@ -202,11 +202,11 @@ They plot the values of a time series against its lags. This makes any Serial De
 It is possible to see that, in the above *US Unemployment* time series, there is a strong and apparently 
 linear relationship between the current unemployment rate and past rates.
 
-The way of measure the Serial Dependence is the **autocorrelation**: correlation of time series with one of its lags.
+The way of measure the Serial Dependence is the **autocorrelation** (ACF): correlation of time series with one of its lags.
 It is possible to see the *US Unemployment* time series autocorrelation in the top left (e.g., 0.99 with lag 1).
 
-## Choosing Lag Feature
-Choose the lag feature with the highest autocorrelation. The **Partial Autocorrelation** tells the correlation of a lag 
+## Choosing Lag Feature (ACF & PACF)
+Choose the lag feature with the highest autocorrelation. The **Partial Autocorrelation** (PACF) tells the correlation of a lag 
 feature with respect to of the previous lags (amount of "new" correlation the lag contributes).
 
 ![Partial Autocorrelation or Correlogram](./images/partial_autocorrelation.png)
