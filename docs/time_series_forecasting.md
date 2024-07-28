@@ -41,9 +41,23 @@ The Lag features model the so-called **Serial Dependence**: time series has seri
 observation can be predicted from previous observations. In *Hardcover Sales*, we can predict that high sales on one 
 day usually mean high sales the next day.
 
-### Stationary
+### Stationary and Differencing
 A Time Series is said to be *Stationary* is it does not exhibit any Trend or Seasonality.
 Any fluctuations within the Time Series are related to the noise or random elements.
+
+One way to transform Time Series from Non-Stationary (has trend and seasonality) to Stationary
+is to use a technique called Differecing: it subtracts to the original Time Series values the 
+shifted values of the time series.
+
+```python
+# First Order Differencing
+data['Values'] - data['Values'].shift(1)
+
+# Equivalent to
+from statsmodels.tsa.statespace.tools import diff
+diff(data['Values'], k_diff=1)
+```
+
 
 # Trend
 The **Trend** component of a time series represents a persistent, long-term change in the mean of the series.
