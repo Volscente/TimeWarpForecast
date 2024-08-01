@@ -206,14 +206,16 @@ The way of measure the Serial Dependence is the **autocorrelation** (ACF): corre
 It is possible to see the *US Unemployment* time series autocorrelation in the top left (e.g., 0.99 with lag 1).
 
 ## Choosing Lag Feature (ACF & PACF)
-Choose the lag feature with the highest autocorrelation. The **Partial Autocorrelation** (PACF) tells the correlation of a lag 
-feature with respect to of the previous lags (amount of "new" correlation the lag contributes).
+Choose the lag feature with the highest autocorrelation. The **Partial Autocorrelation** (PACF) tells the correlation 
+of a lag feature with respect to of the previous lags (amount of "new" correlation the lag contributes).
 
 ![Partial Autocorrelation or Correlogram](./images/partial_autocorrelation.png)
 
 The above plot is also called **Correlogram**. It can be viewed as what the **Periodgram** does for Fourier Features.
 
 **NOTE:** Autocorrelation and Partial Autocorrelation works only for linear dependence.
+
+
 
 ## Examples
 ### Flu Trend
