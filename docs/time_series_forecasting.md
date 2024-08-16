@@ -378,6 +378,37 @@ It models a time series using three different equations, each one covers a compo
 - Double Exponential Smoothing (level + trend components)
 - Triple Exponential Smoothing (level + trend + seasonality components)
 
+## ARIMA
+### Introduction
+It stands for *AutoRegressive Integrated Moving Average* and it is widely used.
+
+### Drawbacks
+One important aspect to consider, is that ARIMA is not well suited when the value of the Time Series is influenced by
+other external factors with respect to the value itself. For example, stock price is not suited to be modelled with ARIMA,
+because it is influence by many other external factors with respect to the price itself.
+
+It is good to apply it when the value of the time series depends only on the time stamp, like for example the airline
+passengers time series, where the number of passengers depends only on the time step itself.
+
+### Types
+- Non-Seasonal ARIMA
+- Seasonal ARIMA (SARIMA)
+- SARIMA with exogenus variables (SARIMAX)
+
+### Process
+Non-Seasonal ARIMA is applied to time series that show non-stationary behaviour (it has trend and seasonality) and
+an initial differencing step is applied one or more times to eliminate the non-stationarity.
+
+ARIMA has **Three Main Parameters**
+- p - Autoregression (AR). A regression model that uses the dependent relationship between a current observation and 
+observations over a previous period
+- d - Integrated (I). Differencing observations (subtracting) in order to make the time series stationary
+- q - Moving Average (MA). A model that uses the dependency between an observations and a residual error from a moving average
+applied to lagged observations
+
+The main characteristics of a Stationary Time series are: constant mean, variance and covariance over time.
+The **Augmented Dickey-Fuller** test is used to understand whether a time series is stationary or not.
+
 # Evaluation
 ## Introduction
 It is possible to evaluate the Time Series Forecasting model through standard Regression metrics:
