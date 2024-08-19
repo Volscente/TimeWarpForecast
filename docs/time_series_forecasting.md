@@ -400,8 +400,8 @@ Non-Seasonal ARIMA is applied to time series that show non-stationary behaviour 
 an initial differencing step is applied one or more times to eliminate the non-stationarity.
 
 ARIMA has **Three Main Parameters**
-- p - Autoregression (AR). A regression model that uses the dependent relationship between a current observation and 
-observations over a previous period
+- p - Autoregression (AR). The Autoregression uses a linear combination of the past observations to predict the next time step
+value. It used the lagged features of order p.
 - d - Integrated (I). Differencing observations (subtracting) in order to make the time series stationary
 - q - Moving Average (MA). A model that uses the dependency between an observations and a residual error from a moving average
 applied to lagged observations
