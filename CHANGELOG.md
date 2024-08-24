@@ -1,3 +1,14 @@
+v.0.1.3
+------
+- [x] Add Notebook `pandas_code_utils.ipynb` in `notebooks/code_utils`
+- [x] Add Notebook `statsmodels_code_utils.ipynb` in `notebooks/code_utils`
+- [x] Add Doc `statistics.md` in `docs`
+- [x] Add Data `us_population.csv` in `data/raw`
+- [x] Add Data `daily_female_births.csv` in `data/raw`
+- [x] Add Data `energy_productions.csv` in `data/raw`
+- [x] Add Data `airline_passengers.csv` in `data/raw`
+- [x] Add Data `macrodata.csv` in `data/raw`
+
 v.0.1.2
 ------
 - [x] Update `time_series_forecasting.md` in `docs`

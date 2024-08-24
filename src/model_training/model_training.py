@@ -1,5 +1,5 @@
 """
-The module contains object classes for the Model Training pipelines and components
+The module contains classes for the Model Training pipelines and components
 """
 # Import Standard Libraries
 import pathlib
@@ -14,7 +14,8 @@ from src.logging_module.logging_module import get_logger
 class BoostedHybridModel:
     """
     The class implements a Boosted Hybrid Model for
-    Time Series Forecasting.
+    Time Series Forecasting, which learns trend and seasonal components
+    through two distinct models.
 
     Attributes:
         linear_model: Linear model to extract trend component
@@ -49,19 +50,19 @@ class BoostedHybridModel:
         self.y_column_names = None
 
     def fit(self,
-            trend_features,
-            serial_features,
-            y):
+            trend_features: pd.DataFrame,
+            serial_features: pd.DataFrame,
+            y: pd.Series):
         """
         Fits the model to time series data
 
         Args:
-            trend_features:
-            serial_features:
-            y:
+            trend_features: Pandas dataframe containing trend features
+            serial_features: Pandas dataframe containing serial features
+            y: Pandas series containing target values
 
         Returns:
-
+            Fitted models 'self.linear_model' and 'self.non_linear_model'
         """
         self.logger.info('fit - Start')
 

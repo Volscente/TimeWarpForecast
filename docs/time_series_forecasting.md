@@ -41,6 +41,24 @@ The Lag features model the so-called **Serial Dependence**: time series has seri
 observation can be predicted from previous observations. In *Hardcover Sales*, we can predict that high sales on one 
 day usually mean high sales the next day.
 
+### Stationary and Differencing
+A Time Series is said to be *Stationary* is it does not exhibit any Trend or Seasonality.
+Any fluctuations within the Time Series are related to the noise or random elements.
+
+One way to transform Time Series from Non-Stationary (has trend and seasonality) to Stationary
+is to use a technique called Differecing: it subtracts to the original Time Series values the 
+shifted values of the time series.
+
+```python
+# First Order Differencing
+data['Values'] - data['Values'].shift(1)
+
+# Equivalent to
+from statsmodels.tsa.statespace.tools import diff
+diff(data['Values'], k_diff=1)
+```
+
+
 # Trend
 The **Trend** component of a time series represents a persistent, long-term change in the mean of the series.
 The trend is the slowest-moving part of a series, the part representing the largest timescale of importance.
@@ -50,7 +68,7 @@ The trend is the slowest-moving part of a series, the part representing the larg
 One of the most common trend is in the **mean**.
 
 ## Moving Average Plot
-It is a technique used to see what kind of trend a time series might have. 
+It is a technique used to see what kind of trend a time series might have and, in a very naive way, even to model a time series. 
 It is plotted by computing the average of the values within a sliding window of some defined width.
 
 ![Moving Average](./images/moving_average.png)
@@ -184,18 +202,20 @@ They plot the values of a time series against its lags. This makes any Serial De
 It is possible to see that, in the above *US Unemployment* time series, there is a strong and apparently 
 linear relationship between the current unemployment rate and past rates.
 
-The way of measure the Serial Dependence is the **autocorrelation**: correlation of time series with one of its lags.
+The way of measure the Serial Dependence is the **autocorrelation** (ACF): correlation of time series with one of its lags.
 It is possible to see the *US Unemployment* time series autocorrelation in the top left (e.g., 0.99 with lag 1).
 
-## Choosing Lag Feature
-Choose the lag feature with the highest autocorrelation. The **Partial Autocorrelation** tells the correlation of a lag 
-feature with respect to of the previous lags (amount of "new" correlation the lag contributes).
+## Choosing Lag Feature (ACF & PACF)
+Choose the lag feature with the highest autocorrelation. The **Partial Autocorrelation** (PACF) tells the correlation 
+of a lag feature with respect to of the previous lags (amount of "new" correlation the lag contributes).
 
 ![Partial Autocorrelation or Correlogram](./images/partial_autocorrelation.png)
 
 The above plot is also called **Correlogram**. It can be viewed as what the **Periodgram** does for Fourier Features.
 
 **NOTE:** Autocorrelation and Partial Autocorrelation works only for linear dependence.
+
+
 
 ## Examples
 ### Flu Trend
@@ -230,13 +250,28 @@ Linear regression is widely used in practice and adapts naturally to even comple
 
 $` y = x_1 \cdot w_1 + \ldots + x_n \cdot w_n + b `$
 
-## Hybrid Models
+## Hybrid Models or ETS Models
 ### Introduction
 Linear Regression is useful for extrapolating trends, while XGBoost excels at learning interactions. 
 These two approaches can be combined in order to create a **Hybrid** forecaster.
 
+Sometimes these models are also called ETS: **Error-Trend-Seasonality**.
+They are able to model a Time Series by decomposing it into three main components:
+- **Error/Resisduals**: it represents the random fluctuations or noise
+- **Trend**
+- **Seasonality**
+
+Some of these ETS models are:
+- *Exponential Smoothing*
+- *Trend Methods Models*
+- *ETS Decomposition*
+
+ETS models can be:
+- **Additive** - The trend is more linear and trend + seasonality components seem constant over time
+- **Multiplicative** - It is useful to model non-linear components
+
 ### Components and Residuals
-A time series can bne described as: `series = trend + seasonalities + cycles + error(unpredictable part)`.
+A time series can be described as: `series = trend + seasonalities + cycles + error(unpredictable part)`.
 
 These are called the **Components** of a time series.
 
@@ -253,6 +288,9 @@ The learning process can be done by learning the single **components** of a time
 
 Adding together all the learned components will build the model. This is what a Linear Regression does when
 it is trained on a complete set of features of trend, seasons and cycles.
+
+One way to extract such components is the **Hodrick-Prescott** filter, which is used to separate the trend component
+from the cyclic component of a time series.
 
 ### Hybrid Forecasting Theory
 It is possible to use one algorithm upon certain components and another one upon the remaining ones.
@@ -318,3 +356,80 @@ previous steps as new lag features.
 
 DirRec strategy can capture serial dependence better than Direct Strategy, 
 but it can also suffer from error propagation like Recursive Strategy.
+
+## Exponentially Weighted Moving Average
+### Definition
+Unlike Simple Moving Averages (or Moving Average), which give equal weight to all observations in a window, 
+EWMA gives exponentially decreasing weights to older observations. 
+This makes the EWMA more sensitive to recent changes in the data, 
+which can be particularly useful for detecting trends and patterns.
+
+### Strategy
+It uses a single smoothing factors "alpha".
+
+## Holt-Winters Methods
+### Definition
+It models a time series using three different equations, each one covers a component:
+- l_t: level (alpha smoothing parameter)
+- b_t: trend (beta smoothing parameter)
+- s_t: seasonality (gamma smoothing parameter)
+
+### Strategies
+- Double Exponential Smoothing (level + trend components)
+- Triple Exponential Smoothing (level + trend + seasonality components)
+
+## ARIMA
+### Introduction
+It stands for *AutoRegressive Integrated Moving Average* and it is widely used.
+
+### Drawbacks
+One important aspect to consider, is that ARIMA is not well suited when the value of the Time Series is influenced by
+other external factors with respect to the value itself. For example, stock price is not suited to be modelled with ARIMA,
+because it is influence by many other external factors with respect to the price itself.
+
+It is good to apply it when the value of the time series depends only on the time stamp, like for example the airline
+passengers time series, where the number of passengers depends only on the time step itself.
+
+### Types
+- Non-Seasonal ARIMA
+- Seasonal ARIMA (SARIMA)
+- SARIMA with exogenus variables (SARIMAX)
+
+### Process
+Non-Seasonal ARIMA is applied to time series that show non-stationary behaviour (it has trend and seasonality) and
+an initial differencing step is applied one or more times to eliminate the non-stationarity.
+
+ARIMA has **Three Main Parameters**
+- p - Autoregression (AR). The Autoregression uses a linear combination of the past observations to predict the next time step
+value. It used the lagged features of order p.
+- d - Integrated (I). Differencing observations (subtracting) in order to make the time series stationary
+- q - Moving Average (MA). A model that uses the dependency between an observations and a residual error from a moving average
+applied to lagged observations
+
+The main characteristics of a Stationary Time series are: constant mean, variance and covariance over time.
+The **Augmented Dickey-Fuller** test is used to understand whether a time series is stationary or not (Check `statistics.md`).
+
+Once the time series has been classified as non-stationary, it is required to be transformed into stationary in order to
+evaluate it and decide what ARIMA (p, d, q) parameters to use. For this process, **Differencing** can transform the time series.
+
+One way to choose p and q through ACF and PACF. Another possibility is to use a Grid Search.
+
+# Evaluation
+## Introduction
+It is possible to evaluate the Time Series Forecasting model through standard Regression metrics:
+- Mean Absolute Error
+- Root Mean Square Error
+- AIC
+- BIC
+
+## Interpret the Results
+It is never easy to interpret the results of Regression problems, since every metric comes with its flaws.
+
+A rule of thumb is: if the Root Mean Square Error is less than the Standard Deviation, the model is performing quite okay.
+
+## AIC
+The *"Akaika Information Criterion"* evaluates a collection of models and estimates the quality of each model relative
+to the others. Penalties are given for the number of parameters.
+
+## BIC
+The *"Bayesian Information Criterion"* uses a Bayesian approach to evaluate the collection of models with respect to AIC.
