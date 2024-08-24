@@ -419,10 +419,17 @@ One way to choose p and q through ACF and PACF. Another possibility is to use a 
 It is possible to evaluate the Time Series Forecasting model through standard Regression metrics:
 - Mean Absolute Error
 - Root Mean Square Error
-- Etc.
+- AIC
+- BIC
 
 ## Interpret the Results
 It is never easy to interpret the results of Regression problems, since every metric comes with its flaws.
 
 A rule of thumb is: if the Root Mean Square Error is less than the Standard Deviation, the model is performing quite okay.
 
+## AIC
+The *"Akaika Information Criterion"* evaluates a collection of models and estimates the quality of each model relative
+to the others. Penalties are given for the number of parameters.
+
+## BIC
+The *"Bayesian Information Criterion"* uses a Bayesian approach to evaluate the collection of models with respect to AIC.

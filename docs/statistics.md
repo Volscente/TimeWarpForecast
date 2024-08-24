@@ -4,7 +4,8 @@ There exist several statistical tests that allow to understand the characteristi
 further select the most appropriate model to train.
 
 For example, these tests check:
-- Stationary: A time 
+- Stationary: A time series has constant mean, variance and covariance over time
+- Causality: A time series can be used for forecasting another time series
 
 # Check Stationary
 ## Augmented Dickey-Fuller Test
@@ -23,4 +24,5 @@ time series with its lagged value.
 # Check Causality
 ## Granger Causality Test
 ### General
-It is a classic hypothesis test
+It is a classic hypothesis test that measure whether one time series can forecast another one.
+Keep in mind that this test does not explain the factors and it requires field experts to extract the meaning out of it.
