@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "TimeWarpForecast"
-version = "0.1.2"
+version = "0.1.3"
 description = "Exploring the temporal realm: dive into the depths of time series forecasting with this repository."
 authors = ["Simone Porreca <porrecasimone@gmail.com>"]
 readme = "README.md"
