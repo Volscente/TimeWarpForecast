@@ -407,7 +407,7 @@ value. It used the lagged features of order p.
 applied to lagged observations
 
 The main characteristics of a Stationary Time series are: constant mean, variance and covariance over time.
-The **Augmented Dickey-Fuller** test is used to understand whether a time series is stationary or not.
+The **Augmented Dickey-Fuller** test is used to understand whether a time series is stationary or not (Check `statistics.md`).
 
 Once the time series has been classified as non-stationary, it is required to be transformed into stationary in order to
 evaluate it and decide what ARIMA (p, d, q) parameters to use. For this process, **Differencing** can transform the time series.
