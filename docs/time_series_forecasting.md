@@ -401,10 +401,11 @@ an initial differencing step is applied one or more times to eliminate the non-s
 
 ARIMA has **Three Main Parameters**
 - p - Autoregression (AR). The Autoregression uses a linear combination of the past observations to predict the next time step
-value. It used the lagged features of order p.
-- d - Integrated (I). Differencing observations (subtracting) in order to make the time series stationary
+value. It used the lagged features of **order p**.
+- d - Integrated (I). Differencing observations (subtracting) in order to make the time series stationary. There, d is the degree 
+of differencing.
 - q - Moving Average (MA). A model that uses the dependency between an observations and a residual error from a moving average
-applied to lagged observations
+applied to lagged observations. The term q is the order to the moving average model.
 
 The main characteristics of a Stationary Time series are: constant mean, variance and covariance over time.
 The **Augmented Dickey-Fuller** test is used to understand whether a time series is stationary or not (Check `statistics.md`).
@@ -412,7 +413,13 @@ The **Augmented Dickey-Fuller** test is used to understand whether a time series
 Once the time series has been classified as non-stationary, it is required to be transformed into stationary in order to
 evaluate it and decide what ARIMA (p, d, q) parameters to use. For this process, **Differencing** can transform the time series.
 
-One way to choose p and q through ACF and PACF. Another possibility is to use a Grid Search.
+### Choose Parameters
+One way to choose p and q through ACF and PACF. 
+
+Another possibility is to use a Grid Search, because the previous mentioned
+plots are sometimes very hard to read.
+
+A library called `pmdarima` (Pyramid ARIMA) is used to performa Grid Search through AIC metric to optimise.
 
 # Evaluation
 ## Introduction
