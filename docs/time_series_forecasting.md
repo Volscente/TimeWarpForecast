@@ -421,6 +421,15 @@ plots are sometimes very hard to read.
 
 A library called `pmdarima` (Pyramid ARIMA) is used to performa Grid Search through AIC metric to optimise.
 
+## SARIMA
+### Introduction
+It is exactly the same as ARIMA, but in addition to the parameters (p, d, q), it takes another tuple (P, D, Q) that
+specifically describes the seasonal components of the model.
+
+### SARIMAX
+The `X` represents that the function in `statsmodels` also supports exogenous regressor variables.
+
+
 # Evaluation
 ## Introduction
 It is possible to evaluate the Time Series Forecasting model through standard Regression metrics:
