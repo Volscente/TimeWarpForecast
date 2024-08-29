@@ -439,6 +439,15 @@ We can use a classic SARIMA approach, and just use the column `total`.
 However, with SARIMAX we can add additional information, like the `weekday`, `holiday` and `holiday_name`.
 These are called *Exogenous Variables*.
 
+### Drawback
+The main problem is that, when predicting future values, we might not have the values for
+those exogenous variables and we should do a double prediction as well.
+
+In the above example of the Restaurant Visitors, that's not a problem, because we can derive the values
+of the Exogenous Variables. However, that could be the case if one Exogenous Variable is `number_tourists_in_town`.
+
+
+
 
 # Evaluation
 ## Introduction
