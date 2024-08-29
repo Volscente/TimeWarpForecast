@@ -426,8 +426,18 @@ A library called `pmdarima` (Pyramid ARIMA) is used to performa Grid Search thro
 It is exactly the same as ARIMA, but in addition to the parameters (p, d, q), it takes another tuple (P, D, Q) that
 specifically describes the seasonal components of the model.
 
-### SARIMAX
+## SARIMAX
+### Introduction
 The `X` represents that the function in `statsmodels` also supports exogenous regressor variables.
+
+### Exogenous Variables
+![Exogenous Variables Example](./images/exogenous_variables.png)
+
+In the example above, we want to predict the total number of visitors from 4 different restaurants (column `total`).
+We can use a classic SARIMA approach, and just use the column `total`.
+
+However, with SARIMAX we can add additional information, like the `weekday`, `holiday` and `holiday_name`.
+These are called *Exogenous Variables*.
 
 
 # Evaluation
