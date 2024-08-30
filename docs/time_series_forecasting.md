@@ -448,10 +448,13 @@ of the Exogenous Variables. However, that could be the case if one Exogenous Var
 
 
 ## Vector Autoregression (VAR)
-
 ## Advantage
 In SARIMAX model, the exogenous variables influence the value of the Time Series, but not vice versa (e.g., restaurants
 visitors do not influence when holidays come, but the other way around). With VAR, the influence is bidirectional.
+
+## VARMA
+### Definition
+It expands the VAR model by introducing the Moving Average term (MA).
 
 
 # Evaluation
