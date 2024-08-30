@@ -447,6 +447,11 @@ In the above example of the Restaurant Visitors, that's not a problem, because w
 of the Exogenous Variables. However, that could be the case if one Exogenous Variable is `number_tourists_in_town`.
 
 
+## Vector Autoregression (VAR)
+
+## Advantage
+In SARIMAX model, the exogenous variables influence the value of the Time Series, but not vice versa (e.g., restaurants
+visitors do not influence when holidays come, but the other way around). With VAR, the influence is bidirectional.
 
 
 # Evaluation
