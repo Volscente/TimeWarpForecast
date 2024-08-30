@@ -1,4 +1,16 @@
-v.0.1.3
+v0.1.4
+------
+- [x] Add Data `samples.csv` in `data/raw`
+- [x] Add Data `trade_inventories.csv` in `data/raw`
+- [x] Add Data `co2__mm_mlo.csv` in `data/raw`
+- [x] Add Data `restaurant_visitors.csv` in `data/raw`
+- [x] Add Data `money_stock.csv` in `data/raw`
+- [x] Add Data `personal_spending.csv` in `data/raw`
+- [x] Add Section PRDARIMA into `notebooks/code_utils/statsmodels_code_utils.ipynb`
+- [x] Add Section SARIMA into `notebooks/code_utils/statsmodels_code_utils.ipynb`
+- [x] Add Section SARIMAX into `notebooks/code_utils/statsmodels_code_utils.ipynb`
+
+v0.1.3
 ------
 - [x] Add Notebook `pandas_code_utils.ipynb` in `notebooks/code_utils`
 - [x] Add Notebook `statsmodels_code_utils.ipynb` in `notebooks/code_utils`
@@ -9,7 +21,7 @@ v.0.1.3
 - [x] Add Data `airline_passengers.csv` in `data/raw`
 - [x] Add Data `macrodata.csv` in `data/raw`
 
-v.0.1.2
+v0.1.2
 ------
 - [x] Update `time_series_forecasting.md` in `docs`
 - [x] Add Data `us_retail_sales.csv` in `data/raw`
@@ -19,7 +31,7 @@ v.0.1.2
 - [x] Add PyTest Fixture `fixture_test_boosted_hybrid_model` in `tests/conftest.py`
 - [x] Add function `fit` in class `BoostedHybridModel`
 
-v.0.1.1
+v0.1.1
 ------
 - [x] Add `time_series_forecasting.md` in `docs`
 - [x] Add data `tunnel.csv` in `data/raw`
@@ -40,7 +52,7 @@ v.0.1.1
 - [x] Add PyTest `test_read_data_from_config` in `tests/test_general_utils.py`
 - [x] Add PyTest `test_read_data_from_config_exceptions` in `tests/test_general_utils.py`
 
-v.0.1.0
+v0.1.0
 ------
 - [x] Add `.github/workflows/pull_request_workflow.yml`
 - [x] Add `.github/pull_request_template.md`
