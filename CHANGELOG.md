@@ -1,3 +1,7 @@
+v0.1.5
+------
+- [x] Update Notebook `pandas_code_utils.ipynb` in `notebooks/code_utils`
+
 v0.1.4
 ------
 - [x] Add Data `samples.csv` in `data/raw`
