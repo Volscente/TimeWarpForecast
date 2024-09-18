@@ -30,3 +30,13 @@ test_boosted_hybrid_model_data_config:
   date_columns:
     - 'Month'
   delimiter: ','
+
+# Test Data Preparation Dataset
+test_data_preparation_dataset:
+  data_path:
+    - 'data'
+    - 'test'
+    - 'test_data_preparation_dataset.csv'
+  date_columns:
+    - 'date'
+  delimiter: ','
