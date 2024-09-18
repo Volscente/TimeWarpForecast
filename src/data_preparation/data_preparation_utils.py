@@ -19,7 +19,8 @@ logger = get_logger(os.path.basename(__file__).split('.')[0],
 def group_avg_column_by_frequency(data: pd.DataFrame,
                                   key: str,
                                   column: str,
-                                  frequency: str) -> pd.DataFrame:
+                                  frequency: str,
+                                  precision: int = 2) -> pd.DataFrame:
     """
     Group a DataFrame by the key with a frequency and compute the avg over the column
 
@@ -28,6 +29,7 @@ def group_avg_column_by_frequency(data: pd.DataFrame,
         key: String key to group
         column: String column to compute the avg over
         frequency: String representing the frequency
+        precision: Integer precision to round
 
     Returns:
         grouped_data: Pandas DataFrame with grouped data
@@ -43,6 +45,9 @@ def group_avg_column_by_frequency(data: pd.DataFrame,
 
     # Group and compute average
     grouped_data = data.groupby(grouper)[column].mean().reset_index()
+
+    # Round grouped data
+    grouped_data[column] = grouped_data[column].round(precision)
 
     logger.info('group_avg_column_by_frequency - End')
 
