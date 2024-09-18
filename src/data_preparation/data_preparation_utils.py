@@ -38,4 +38,12 @@ def group_avg_column_by_frequency(data: pd.DataFrame,
     logger.info('group_avg_column_by_frequency - key: %s | frequency: %s | column: %s',
                 key, frequency, column)
 
+    # Define the grouper
+    grouper = pd.Grouper(key=key, freq=frequency)
+
+    # Group and compute average
+    grouped_data = data.groupby(grouper)[column].mean().reset_index()
+
     logger.info('group_avg_column_by_frequency - End')
+
+    return grouped_data
