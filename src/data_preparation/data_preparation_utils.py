@@ -4,6 +4,7 @@ This module contains utils function for preparing the data for the EDA or model 
 # Import Standard Libraries
 import os
 import pandas as pd
+import numpy as np
 from pathlib import Path
 
 # Import Package Modules
@@ -52,3 +53,31 @@ def group_avg_column_by_frequency(data: pd.DataFrame,
     logger.info('group_avg_column_by_frequency - End')
 
     return grouped_data
+
+
+def add_dummy_time_step(data: pd.DataFrame,
+                        column_name: str = 'time_step') -> pd.DataFrame:
+    """
+    Add a dummy time-step feature called 'column_name' into the data
+
+    Args:
+        data: Pandas DataFrame to add the feature to
+        column_name: String column name
+
+    Returns:
+        data: Pandas DataFrame with the added time-step column
+    """
+
+    logger.info('add_dummy_time_step - Start')
+
+    logger.info('add_dummy_time_step - column_name: %s', column_name)
+
+    # Compute the time-step
+    time_step = np.arange(len(data))
+
+    # Add the time-step to the data
+    data[column_name] = time_step
+
+    logger.info('add_dummy_time_step - End')
+
+    return data
