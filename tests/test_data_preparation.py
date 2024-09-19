@@ -10,7 +10,8 @@ import pytest
 # Import Package Modules
 from src.data_preparation.data_preparation_utils import (
     group_avg_column_by_frequency,
-    add_dummy_time_step
+    add_dummy_time_step,
+    add_lag_feature
 )
 
 
@@ -69,6 +70,37 @@ def test_add_dummy_time_step(dataset_name: str,
     dataset = request.getfixturevalue(dataset_name)
 
     # Apply function to test
-    processed_dataset = add_dummy_time_step(data=dataset)
+    dataset = add_dummy_time_step(data=dataset)
 
-    assert processed_dataset.loc[expected_output, column] == expected_output
+    assert dataset.loc[expected_output, column] == expected_output
+
+
+@pytest.mark.parametrize('dataset_name, column, lag, index, expected_output', [
+    ('fixture_data_preparation_dataset', 'transactions', 2, 3, 2111.0)
+])
+def test_add_lag_feature(dataset_name: str,
+                         column: str,
+                         lag: int,
+                         index: int,
+                         expected_output: float,
+                         request: pytest.FixtureRequest) -> bool:
+    """
+    Test the function src.data_preparation.data_preparation_utils.add_lag_feature
+
+    Args:
+        dataset_name: String name of the dataset
+        column: String column name of lag feature
+        lag: Integer lag value
+        index: Integer index of the row to test
+        expected_output: Float expected lag feature value
+        request: pytest.FixtureRequest required to get the dataset fixtures
+
+    Returns:
+    """
+    # Retrieve dataset fixture
+    dataset = request.getfixturevalue(dataset_name)
+
+    # Apply function to test
+    dataset = add_lag_feature(data=dataset, column=column, lag=lag)
+
+    assert dataset.loc[index, column + '_lag_' + str(lag)] == expected_output
