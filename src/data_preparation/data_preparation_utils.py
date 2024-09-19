@@ -81,3 +81,33 @@ def add_dummy_time_step(data: pd.DataFrame,
     logger.info('add_dummy_time_step - End')
 
     return data
+
+
+def add_lag_feature(data: pd.DataFrame,
+                    column: str,
+                    lag: int) -> pd.DataFrame:
+    """
+    Add a lag feature to the data
+
+    Args:
+        data: Pandas DataFrame to add lag to
+        column: String column name to compute lag with
+        lag: Integer lag value
+
+    Returns:
+        data: Pandas DataFrame with the lag feature added
+    """
+    logger.info('add_lag_feature - Start')
+
+    logger.info('add_lag_feature - column: %s | lag: %s',
+                column, lag)
+
+    # Compute lag feature
+    lag_feature = data.loc[:, column].shift(lag)
+
+    # Add lag feature to the data
+    data[column + '_lag_' + str(lag)] = lag_feature
+
+    logger.info('add_lag_feature - End')
+
+    return data
