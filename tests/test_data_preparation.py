@@ -9,7 +9,8 @@ import pytest
 
 # Import Package Modules
 from src.data_preparation.data_preparation_utils import (
-    group_avg_column_by_frequency
+    group_avg_column_by_frequency,
+    add_dummy_time_step
 )
 
 
@@ -44,3 +45,30 @@ def test_group_avg_column_by_frequency(dataset_name: str,
     grouped_data = group_avg_column_by_frequency(data=dataset, key=key, column=column, frequency=frequency)
 
     assert grouped_data.loc[index, column] == expected_output
+
+
+@pytest.mark.parametrize('dataset_name, column, expected_output', [
+    ('fixture_data_preparation_dataset', 'time_step', 3)
+])
+def test_add_dummy_time_step(dataset_name: str,
+                             column: str,
+                             expected_output: int,
+                             request: pytest.FixtureRequest) -> bool:
+    """
+    Test the function src.data_preparation.data_preparation_utils.add_dummy_time_step
+
+    Args:
+        dataset_name: String name of the dataset
+        column: String column name of time-step feature
+        expected_output: Integer expected time-step feature value
+        request: pytest.FixtureRequest required to get the dataset fixtures
+
+    Returns:
+    """
+    # Retrieve dataset fixture
+    dataset = request.getfixturevalue(dataset_name)
+
+    # Apply function to test
+    processed_dataset = add_dummy_time_step(data=dataset)
+
+    assert processed_dataset.loc[expected_output, column] == expected_output
