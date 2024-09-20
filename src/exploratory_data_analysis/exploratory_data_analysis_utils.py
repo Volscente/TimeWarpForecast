@@ -125,7 +125,7 @@ def plot_time_series(time_series: pd.DataFrame,
 def plot_regression_plot(data: pd.DataFrame,
                          columns: Tuple[str, str],
                          title: str,
-                         labels: Tuple[str, str, str],
+                         labels: Tuple[str, str],
                          to_plot: bool) -> matplotlib.axes.Axes:
     logger.info('plot_regression_plot - Start')
 
@@ -143,7 +143,7 @@ def plot_regression_plot(data: pd.DataFrame,
     # Plot regression plot
     ax_regression_plot = sns.regplot(data=data,
                                      x=columns[0],
-                                     y=datacolumns[1],
+                                     y=columns[1],
                                      scatter_kws=dict(color='0.75'),
                                      label='Predictions',
                                      ax=ax_time_series)
