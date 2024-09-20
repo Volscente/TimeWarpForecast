@@ -122,6 +122,53 @@ def plot_time_series(time_series: pd.DataFrame,
     return ax
 
 
+def plot_regression_plot(data: pd.DataFrame,
+                         columns: Tuple[str, str],
+                         title: str,
+                         labels: Tuple[str, str, str],
+                         to_plot: bool) -> matplotlib.axes.Axes:
+    logger.info('plot_regression_plot - Start')
+
+    logger.info('plot_regression_plot - Plot time series')
+
+    # Plot time series
+    ax_time_series = plot_time_series(time_series=data,
+                                      columns=columns,
+                                      title=title,
+                                      labels=(labels[0], labels[1], 'Time Series'),
+                                      to_plot=False)
+
+    logger.info('plot_regression_plot - Plot regression plot')
+
+    # Plot regression plot
+    ax_regression_plot = sns.regplot(data=data,
+                                     x=columns[0],
+                                     y=datacolumns[1],
+                                     scatter_kws=dict(color='0.75'),
+                                     label='Predictions',
+                                     ax=ax_time_series)
+
+    # Define legend settings
+    ax_regression_plot.legend(loc='upper center',
+                              bbox_to_anchor=(0.5, 1.03),
+                              fontsize=12,
+                              ncol=2)
+
+    # Switch for plotting or returning the axes
+    if to_plot:
+        logger.info('plot_regression_plot - Calling the plt.show()')
+
+        # Show plt
+        plt.show()
+
+        # Define the layout
+        plt.tight_layout()
+
+    logger.info('plot_regression_plot - End')
+
+    return ax_predictions
+
+
 def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
                                     columns: Tuple[str, str],
                                     title: str,
@@ -147,7 +194,7 @@ def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
     # Extract time series and predictions from data
     time_series, predictions = data[0], data[1]
 
-    logger.info('plot_predictions_vs_time_series - Plot tim series')
+    logger.info('plot_predictions_vs_time_series - Plot time series')
 
     # Plot time series
     ax_time_series = plot_time_series(time_series=time_series,
@@ -349,7 +396,6 @@ def plot_lags_series(data: pd.Series,
 
     # Fetch the lags to plot
     for axis, lag_value in zip(figure.get_axes(), range(nrows * ncols)):
-
         # plot the lag
         axis = plot_single_lag(data, lag_value=lag_value + 1, ax=axis)
 
