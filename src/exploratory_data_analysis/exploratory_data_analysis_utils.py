@@ -152,7 +152,7 @@ def plot_regression_plot(data: pd.DataFrame,
     ax_regression_plot.legend(loc='upper center',
                               bbox_to_anchor=(0.5, 1.03),
                               fontsize=12,
-                              ncol=2)
+                              ncol=3)
 
     # Switch for plotting or returning the axes
     if to_plot:
