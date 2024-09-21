@@ -166,7 +166,7 @@ def plot_regression_plot(data: pd.DataFrame,
 
     logger.info('plot_regression_plot - End')
 
-    return ax_predictions
+    return ax_regression_plot
 
 
 def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
