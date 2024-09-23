@@ -295,7 +295,8 @@ def plot_moving_average(time_series: pd.DataFrame,
                         rolling_settings: dict,
                         columns: Tuple[str, str],
                         title: str,
-                        labels: Tuple[str, str, str]) -> matplotlib.axes.Axes:
+                        labels: Tuple[str, str, str],
+                        to_plot: bool = False) -> matplotlib.axes.Axes:
     """
     Plot the moving average over time series
 
@@ -305,6 +306,7 @@ def plot_moving_average(time_series: pd.DataFrame,
         columns: Tuple of String name of columns in time_series for x-axis nad y-axis
         title: String title of the plot
         labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
+        to_plot: Boolean indicating whether to plot or not
 
     Returns:
     """
@@ -352,13 +354,17 @@ def plot_moving_average(time_series: pd.DataFrame,
                              fontsize=12,
                              ncol=2)
 
-    # Show plt
-    plt.show()
+    # Switch for plotting or returning the axes
+    if to_plot:
+        logger.info('plot_regression_plot - Calling the plt.show()')
 
-    # Define the layout
-    plt.tight_layout()
+        # Show plt
+        plt.show()
 
-    logger.info('plot_moving_average - End')
+        # Define the layout
+        plt.tight_layout()
+
+    logger.info('plot_regression_plot - End')
 
     return ax_moving_average
 
