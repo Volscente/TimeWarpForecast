@@ -425,3 +425,13 @@ def plot_lags_series(data: pd.Series,
     logger.info('plot_lags_series - End')
 
     return figure
+
+
+def plot_seasonality(data: pd.DataFrame,
+                     seasonality: str,
+                     category: str,
+                     title: str,
+                     labels: Tuple[str, str],
+                     to_plot: bool = False) -> matplotlib.axes.Axes:
+
+    pass
