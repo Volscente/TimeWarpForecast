@@ -5,7 +5,7 @@ The module contains several util functions for performing exploratory data analy
 import os
 import math
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple, Union
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -169,20 +169,22 @@ def plot_regression_plot(data: pd.DataFrame,
     return ax_regression_plot
 
 
-def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
+def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, Union[np.ndarray | pd.DataFrame]],
                                     columns: Tuple[str, str],
                                     title: str,
                                     labels: Tuple[str, str, str],
-                                    to_plot: bool) -> matplotlib.axes.Axes:
+                                    to_plot: bool,
+                                    future_predictions: bool = False) -> matplotlib.axes.Axes:
     """
     Plot the predicted values against the time series
 
     Args:
-        data: Tuple of Pandas DataFrame with time series and Numpy array with predicted values
+        data: Tuple of Pandas DataFrame with time series and predicted values (Numpy Array or Pandas DataFrame)
         columns: Tuple of String name of columns in time_series for x-axis nad y-axis
         title: String title of plot
         labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
         to_plot: Boolean indicating whether to plot the time series or return the axes
+        future_predictions: Boolean indicating whether the predictions are in the future or not
 
     Returns:
         ax_predictions: matplotlib Axes with predicted values against the time series plot
@@ -205,11 +207,17 @@ def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
 
     logger.info('plot_predictions_vs_time_series - Plot predicted values')
 
-    # Plot predictions
-    ax_predictions = sns.lineplot(x=time_series[columns[0]],
-                                  y=predictions,
-                                  label=labels[2],
-                                  ax=ax_time_series)
+    # Switch between future and past predictions
+    if future_predictions:
+        ax_predictions = sns.lineplot(x=predictions.index,
+                                      y=predictions.values.reshape(-1,),
+                                      label=labels[2],
+                                      ax=ax_time_series)
+    else:
+        ax_predictions = sns.lineplot(x=time_series[columns[0]],
+                                      y=predictions,
+                                      label=labels[2],
+                                      ax=ax_time_series)
 
     # Define legend settings
     ax_predictions.legend(loc='upper center',
