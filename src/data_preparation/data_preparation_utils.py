@@ -6,6 +6,7 @@ import os
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from typing import List
 
 # Import Package Modules
 from src.logging_module.logging_module import get_logger
@@ -109,5 +110,41 @@ def add_lag_feature(data: pd.DataFrame,
     data[column + '_lag_' + str(lag)] = lag_feature
 
     logger.info('add_lag_feature - End')
+
+    return data
+
+
+def add_seasonality(data: pd.DataFrame,
+                    column: str,
+                    seasonality: List[str]) -> pd.DataFrame:
+    """
+    Add all seasonality computed on the given 'column' into the 'data'
+
+    Args:
+        data: Pandas DataFrame to add seasonality to
+        column: String column name to compute seasonality with
+        seasonality: List of string seasonality to add
+
+    Returns:
+        data: Pandas DataFrame with the seasonality added
+    """
+    logger.info('add_seasonality - Start')
+
+    # Fetch seasonality to add
+    for element in seasonality:
+
+        logger.info('add_seasonality - Seasonality: %s', element)
+
+        # Switch between seasonality to add
+        match element:
+            case 'day_of_week':
+                data['day_of_week'] = data[column].dt.day_name()
+            case 'week':
+                data['week'] = data[column].dt.isocalendar().week.astype('int32')
+            case _:
+                # Unrecognised seasonality
+                raise ValueError('Unrecognised Seasonality')
+
+    logger.info('add_seasonality - End')
 
     return data
