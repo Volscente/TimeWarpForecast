@@ -124,6 +124,7 @@ def add_seasonality(data: pd.DataFrame,
         data: Pandas DataFrame to add seasonality to
         column: String column name to compute seasonality with
         seasonality: List of string seasonality to add
+                     (values: day_of_week, week)
 
     Returns:
         data: Pandas DataFrame with the seasonality added

@@ -6,12 +6,14 @@ module src.data_preparation
 import pandas as pd
 import pathlib
 import pytest
+from typing import List, Tuple
 
 # Import Package Modules
 from src.data_preparation.data_preparation_utils import (
     group_avg_column_by_frequency,
     add_dummy_time_step,
-    add_lag_feature
+    add_lag_feature,
+    add_seasonality
 )
 
 
@@ -104,3 +106,36 @@ def test_add_lag_feature(dataset_name: str,
     dataset = add_lag_feature(data=dataset, column=column, lag=lag)
 
     assert dataset.loc[index, column + '_lag_' + str(lag)] == expected_output
+
+
+@pytest.mark.parametrize('dataset_name, column, seasonality, index, expected_output', [
+    ('fixture_data_preparation_dataset', 'date', ['day_of_week'], 3, 'Wednesday'),
+    ('fixture_data_preparation_dataset', 'date', ['week'], 5, 1),
+])
+def test_add_seasonality(dataset_name: str,
+                         column: str,
+                         seasonality: List[str],
+                         index: int,
+                         expected_output: Tuple[int, str],
+                         request: pytest.FixtureRequest) -> bool:
+    """
+    Test the function src.data_preparation.data_preparation_utils.add_seasonality
+
+    Args:
+        dataset_name: String name of the dataset
+        column: String column name to compute seasonality with
+        seasonality: List of string seasonality to add
+                     (values: day_of_week, week)
+        index: Integer index of the row to test
+        expected_output: Integer or String expected seasonality value
+        request: pytest.FixtureRequest required to get the dataset fixtures
+
+    Returns:
+    """
+    # Retrieve dataset fixture
+    dataset = request.getfixturevalue(dataset_name)
+
+    # Apply function to test
+    dataset = add_seasonality(data=dataset, column=column, seasonality=seasonality)
+
+    assert dataset.loc[index, seasonality[0]] == expected_output
