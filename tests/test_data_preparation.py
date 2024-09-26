@@ -139,3 +139,31 @@ def test_add_seasonality(dataset_name: str,
     dataset = add_seasonality(data=dataset, column=column, seasonality=seasonality)
 
     assert dataset.loc[index, seasonality[0]] == expected_output
+
+
+@pytest.mark.parametrize('dataset_name, column, seasonality, expected_error', [
+    ('fixture_data_preparation_dataset', 'date', ['wrong_seasonality'], ValueError)
+])
+def test_add_seasonality_exception(dataset_name: str,
+                                   column: str,
+                                   seasonality:str,
+                                   expected_error: ValueError,
+                                   request: pytest.FixtureRequest) -> bool:
+    """
+    Test exceptions the function src.data_preparation.data_preparation_utils.add_seasonality
+
+    Args:
+        dataset_name: String name of the dataset
+        column: String column name to compute seasonality with
+        seasonality: List of string seasonality to add
+                     (values: day_of_week, week)
+        expected_error: ValueError expected error
+        request: pytest.FixtureRequest required to get the dataset fixtures
+
+    Returns:
+    """
+    # Retrieve dataset fixture
+    dataset = request.getfixturevalue(dataset_name)
+
+    with pytest.raises(expected_error):
+        add_seasonality(data=dataset, column=column, seasonality=seasonality)
