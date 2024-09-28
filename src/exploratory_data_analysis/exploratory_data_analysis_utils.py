@@ -210,7 +210,7 @@ def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, Union[np.ndarray |
     # Switch between future and past predictions
     if future_predictions:
         ax_predictions = sns.lineplot(x=predictions.index,
-                                      y=predictions.values.reshape(-1,),
+                                      y=predictions.values.reshape(-1, ),
                                       label=labels[2],
                                       ax=ax_time_series)
     else:
@@ -317,6 +317,7 @@ def plot_moving_average(time_series: pd.DataFrame,
         to_plot: Boolean indicating whether to plot or not
 
     Returns:
+        ax_moving_average: Matplotlib Axes object with moving average plot
     """
     logger.info('plot_moving_average - Start')
 
@@ -428,10 +429,57 @@ def plot_lags_series(data: pd.Series,
 
 
 def plot_seasonality(data: pd.DataFrame,
-                     seasonality: str,
-                     category: str,
+                     columns: Tuple[str, str, str],
                      title: str,
                      labels: Tuple[str, str],
                      to_plot: bool = False) -> matplotlib.axes.Axes:
+    """
+    Plot the seasonality of a time series
 
-    pass
+    Args:
+        data:
+        columns:
+        title:
+        labels:
+        to_plot:
+
+    Returns:
+
+    """
+    logger.info('plot_seasonality - Start')
+
+    # Extract columns
+    category, seasonality, variable = columns[0], columns[1], columns[2]
+
+    logger.info('plot_seasonality - Process data')
+
+    # Process data
+    data_to_plot = pd.melt(frame=data,
+                           id_vars=[category, seasonality],
+                           value_vars=[variable],
+                           value_name=f'avg_{variable}')
+
+    logger.info('plot_seasonality - Plot seasonality')
+
+    # Define axis
+    ax_seasonality = sns.lineplot(data=data_to_plot,
+                                  x=seasonality,
+                                  y=f'avg_{variable}',
+                                  hue=category,
+                                  title=title,
+                                  errorbar=('ci', 95),
+                                  alpha=1.0)
+
+    # Switch for plotting or returning the axes
+    if to_plot:
+        logger.info('plot_seasonality - Calling the plt.show()')
+
+        # Show plt
+        plt.show()
+
+        # Define the layout
+        plt.tight_layout()
+
+    logger.info('plot_seasonality - End')
+
+    return ax_seasonality
