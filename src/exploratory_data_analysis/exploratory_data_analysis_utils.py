@@ -437,14 +437,14 @@ def plot_seasonality(data: pd.DataFrame,
     Plot the seasonality of a time series
 
     Args:
-        data:
-        columns:
-        title:
-        labels:
-        to_plot:
+        data: Pandas dataframe with time series
+        columns: Tuple[str, str, str] containing columns of category, seasonality and variable
+        title: String title of the plot
+        labels: Tuple[str, str] containing labels for x-axis and y-axis
+        to_plot: Boolean flag for returning the axis or plotting
 
     Returns:
-
+        ax_seasonality: Matplotlib Axes object with seasonality plot
     """
     logger.info('plot_seasonality - Start')
 
@@ -466,9 +466,28 @@ def plot_seasonality(data: pd.DataFrame,
                                   x=seasonality,
                                   y=f'avg_{variable}',
                                   hue=category,
-                                  title=title,
                                   errorbar=('ci', 95),
                                   alpha=1.0)
+
+    # Set title
+    ax_seasonality.set_title(title,
+                             fontweight='bold',
+                             fontsize=20)
+
+    # Set tick rotation
+    ax_seasonality.tick_params(labelrotation=45)
+
+    # Set Labels
+    ax_seasonality.set_xlabel(labels[0],
+                              fontsize=14)
+    ax_seasonality.set_ylabel(labels[1],
+                              fontsize=14)
+
+    # Set the legend
+    ax_seasonality.legend(loc='upper center',
+                          bbox_to_anchor=(0.5, 0.95),
+                          fontsize=12,
+                          ncol=2)
 
     # Switch for plotting or returning the axes
     if to_plot:
