@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import AnchoredText
+from scipy.signal import periodogram
 import pandas as pd
 import seaborn as sns
 
@@ -502,3 +503,19 @@ def plot_seasonality(data: pd.DataFrame,
     logger.info('plot_seasonality - End')
 
     return ax_seasonality
+
+
+def plot_periodgram(data: pd.DataFrame, column: str)
+
+    logger.info('plot_periodgram - Start')
+
+    logger.info('plot_periodgram - Retrieve Time Series')
+
+    # Retrieve time series to plot and remove missing values
+    time_series = data[column].copy().dropna()
+
+    logger.info('plot_periodgram - Compute frequencies and spectrum')
+
+    # Compute frequency and spectrum
+    frequency_value = pd.Timedelta("365D") / pd.Timedelta("1D")
+    frequencies, spectrum = periodogram(time_series)

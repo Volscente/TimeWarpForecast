@@ -124,7 +124,7 @@ def add_seasonality(data: pd.DataFrame,
         data: Pandas DataFrame to add seasonality to
         column: String column name to compute seasonality with
         seasonality: List of string seasonality to add
-                     (values: day_of_week, week)
+                     (accepted values: ['day_of_week', 'week', 'day_of_year', 'year'])
 
     Returns:
         data: Pandas DataFrame with the seasonality added
@@ -142,6 +142,10 @@ def add_seasonality(data: pd.DataFrame,
                 data['day_of_week'] = data[column].dt.day_name()
             case 'week':
                 data['week'] = data[column].dt.isocalendar().week.astype('int32')
+            case 'day_of_year':
+                data['day_of_year'] = data[column].dt.dayofyear.astype('int32')
+            case 'year':
+                data['year'] = data[column].dt.year.astype('int32')
             case _:
                 # Unrecognised seasonality
                 raise ValueError('Unrecognised Seasonality')
