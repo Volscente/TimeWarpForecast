@@ -505,7 +505,7 @@ def plot_seasonality(data: pd.DataFrame,
     return ax_seasonality
 
 
-def plot_periodgram(data: pd.DataFrame, column: str)
+def plot_periodgram(data: pd.DataFrame, column: str):
 
     logger.info('plot_periodgram - Start')
 
