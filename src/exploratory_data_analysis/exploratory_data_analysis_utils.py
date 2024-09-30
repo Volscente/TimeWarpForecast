@@ -506,7 +506,6 @@ def plot_seasonality(data: pd.DataFrame,
 
 
 def plot_periodgram(data: pd.DataFrame, column: str):
-
     logger.info('plot_periodgram - Start')
 
     logger.info('plot_periodgram - Retrieve Time Series')
@@ -518,4 +517,35 @@ def plot_periodgram(data: pd.DataFrame, column: str):
 
     # Compute frequency and spectrum
     frequency_value = pd.Timedelta("365D") / pd.Timedelta("1D")
-    frequencies, spectrum = periodogram(time_series)
+    frequencies, spectrum = periodogram(time_series,
+                                        fs=frequency_value,
+                                        detrend='linear',
+                                        window='boxcar',
+                                        scaling='spectrum')
+
+    # Define the plot
+    _, ax_periodgram = plt.subplots()
+
+    logger.info('plot_periodgram - Plot the Periodgram')
+
+    # Plot the Periodgram
+    ax_periodgram.step(frequencies, spectrum, color='purple')
+
+    # Set plot characteristics
+    ax_periodgram.set_xscale("log")
+    ax_periodgram.set_xticks([1, 2, 4, 6, 12, 26, 52, 104])
+    ax_periodgram.set_xticklabels(["Annual (1)",
+                                   "Semiannual (2)",
+                                   "Quarterly (4)",
+                                   "Bimonthly (6)",
+                                   "Monthly (12)",
+                                   "Biweekly (26)",
+                                   "Weekly (52)",
+                                   "Semiweekly (104)"], rotation=30)
+    ax_periodgram.ticklabel_format(axis="y", style="sci", scilimits=(0, 0))
+    ax_periodgram.set_ylabel("Variance")
+    ax_periodgram.set_title("Periodogram")
+
+    logger.info('plot_periodgram - End')
+
+    return ax_periodgram
