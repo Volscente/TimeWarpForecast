@@ -3,10 +3,10 @@ This module contains utils function for preparing the data for the EDA or model 
 """
 # Import Standard Libraries
 import os
-import pandas as pd
-import numpy as np
 from pathlib import Path
 from typing import List
+import pandas as pd
+import numpy as np
 
 # Import Package Modules
 from src.logging_module.logging_module import get_logger

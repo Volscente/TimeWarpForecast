@@ -128,6 +128,19 @@ def plot_regression_plot(data: pd.DataFrame,
                          title: str,
                          labels: Tuple[str, str],
                          to_plot: bool) -> matplotlib.axes.Axes:
+    """
+    Plots a regression plot using seaborn matplotlib Axes.
+
+    Args:
+        data: Pandas dataframe with time series
+        columns: Tuple of String name of columns in time series data for x-axis nad y-axis
+        title: String title of plot
+        labels: Tuple of string name of labels for the x-axis and y-axis
+        to_plot: Boolean indicating whether to plot the time series or return the axes
+
+    Returns:
+        ax_regression_plot: matplotlib Axes with regression plot
+    """
     logger.info('plot_regression_plot - Start')
 
     logger.info('plot_regression_plot - Plot time series')
@@ -145,7 +158,7 @@ def plot_regression_plot(data: pd.DataFrame,
     ax_regression_plot = sns.regplot(data=data,
                                      x=columns[0],
                                      y=columns[1],
-                                     scatter_kws=dict(color='0.75'),
+                                     scatter_kws={'color': '0.75'},
                                      label='Predictions',
                                      ax=ax_time_series)
 
@@ -174,8 +187,7 @@ def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, Union[np.ndarray |
                                     columns: Tuple[str, str],
                                     title: str,
                                     labels: Tuple[str, str, str],
-                                    to_plot: bool,
-                                    future_predictions: bool = False) -> matplotlib.axes.Axes:
+                                    flags: Tuple[bool, bool] = (False, False)) -> matplotlib.axes.Axes:
     """
     Plot the predicted values against the time series
 
@@ -184,13 +196,16 @@ def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, Union[np.ndarray |
         columns: Tuple of String name of columns in time_series for x-axis nad y-axis
         title: String title of plot
         labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
-        to_plot: Boolean indicating whether to plot the time series or return the axes
-        future_predictions: Boolean indicating whether the predictions are in the future or not
+        flags: Tuple of boolean indicating: 0) whether to plot or return the axes, 1) whether the predictions are in the future
 
     Returns:
         ax_predictions: matplotlib Axes with predicted values against the time series plot
     """
     logger.info('plot_predictions_vs_time_series - Start')
+
+    # Retrieve flags
+    to_plot = flags[0]
+    future_predictions = flags[1]
 
     logger.info('plot_predictions_vs_time_series - Extract time series and predictions')
 
