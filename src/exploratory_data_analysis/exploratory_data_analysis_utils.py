@@ -5,11 +5,12 @@ The module contains several util functions for performing exploratory data analy
 import os
 import math
 from pathlib import Path
-from typing import Tuple
+from typing import Tuple, Union
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import AnchoredText
+from scipy.signal import periodogram
 import pandas as pd
 import seaborn as sns
 
@@ -122,32 +123,96 @@ def plot_time_series(time_series: pd.DataFrame,
     return ax
 
 
-def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
+def plot_regression_plot(data: pd.DataFrame,
+                         columns: Tuple[str, str],
+                         title: str,
+                         labels: Tuple[str, str],
+                         to_plot: bool) -> matplotlib.axes.Axes:
+    """
+    Plots a regression plot using seaborn matplotlib Axes.
+
+    Args:
+        data: Pandas dataframe with time series
+        columns: Tuple of String name of columns in time series data for x-axis nad y-axis
+        title: String title of plot
+        labels: Tuple of string name of labels for the x-axis and y-axis
+        to_plot: Boolean indicating whether to plot the time series or return the axes
+
+    Returns:
+        ax_regression_plot: matplotlib Axes with regression plot
+    """
+    logger.info('plot_regression_plot - Start')
+
+    logger.info('plot_regression_plot - Plot time series')
+
+    # Plot time series
+    ax_time_series = plot_time_series(time_series=data,
+                                      columns=columns,
+                                      title=title,
+                                      labels=(labels[0], labels[1], 'Time Series'),
+                                      to_plot=False)
+
+    logger.info('plot_regression_plot - Plot regression plot')
+
+    # Plot regression plot
+    ax_regression_plot = sns.regplot(data=data,
+                                     x=columns[0],
+                                     y=columns[1],
+                                     scatter_kws={'color': '0.75'},
+                                     label='Predictions',
+                                     ax=ax_time_series)
+
+    # Define legend settings
+    ax_regression_plot.legend(loc='upper center',
+                              bbox_to_anchor=(0.5, 1.03),
+                              fontsize=12,
+                              ncol=3)
+
+    # Switch for plotting or returning the axes
+    if to_plot:
+        logger.info('plot_regression_plot - Calling the plt.show()')
+
+        # Show plt
+        plt.show()
+
+        # Define the layout
+        plt.tight_layout()
+
+    logger.info('plot_regression_plot - End')
+
+    return ax_regression_plot
+
+
+def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, Union[np.ndarray | pd.DataFrame]],
                                     columns: Tuple[str, str],
                                     title: str,
                                     labels: Tuple[str, str, str],
-                                    to_plot: bool) -> matplotlib.axes.Axes:
+                                    flags: Tuple[bool, bool] = (False, False)) -> matplotlib.axes.Axes:
     """
     Plot the predicted values against the time series
 
     Args:
-        data: Tuple of Pandas DataFrame with time series and Numpy array with predicted values
+        data: Tuple of Pandas DataFrame with time series and predicted values (Numpy Array or Pandas DataFrame)
         columns: Tuple of String name of columns in time_series for x-axis nad y-axis
         title: String title of plot
         labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
-        to_plot: Boolean indicating whether to plot the time series or return the axes
+        flags: Tuple of boolean indicating: 0) whether to plot or return the axes, 1) whether the predictions are in the future
 
     Returns:
         ax_predictions: matplotlib Axes with predicted values against the time series plot
     """
     logger.info('plot_predictions_vs_time_series - Start')
 
+    # Retrieve flags
+    to_plot = flags[0]
+    future_predictions = flags[1]
+
     logger.info('plot_predictions_vs_time_series - Extract time series and predictions')
 
     # Extract time series and predictions from data
     time_series, predictions = data[0], data[1]
 
-    logger.info('plot_predictions_vs_time_series - Plot tim series')
+    logger.info('plot_predictions_vs_time_series - Plot time series')
 
     # Plot time series
     ax_time_series = plot_time_series(time_series=time_series,
@@ -158,11 +223,17 @@ def plot_predictions_vs_time_series(data: Tuple[pd.DataFrame, np.ndarray],
 
     logger.info('plot_predictions_vs_time_series - Plot predicted values')
 
-    # Plot predictions
-    ax_predictions = sns.lineplot(x=time_series[columns[0]],
-                                  y=predictions,
-                                  label=labels[2],
-                                  ax=ax_time_series)
+    # Switch between future and past predictions
+    if future_predictions:
+        ax_predictions = sns.lineplot(x=predictions.index,
+                                      y=predictions.values.reshape(-1, ),
+                                      label=labels[2],
+                                      ax=ax_time_series)
+    else:
+        ax_predictions = sns.lineplot(x=time_series[columns[0]],
+                                      y=predictions,
+                                      label=labels[2],
+                                      ax=ax_time_series)
 
     # Define legend settings
     ax_predictions.legend(loc='upper center',
@@ -248,7 +319,8 @@ def plot_moving_average(time_series: pd.DataFrame,
                         rolling_settings: dict,
                         columns: Tuple[str, str],
                         title: str,
-                        labels: Tuple[str, str, str]) -> matplotlib.axes.Axes:
+                        labels: Tuple[str, str, str],
+                        to_plot: bool = False) -> matplotlib.axes.Axes:
     """
     Plot the moving average over time series
 
@@ -258,8 +330,10 @@ def plot_moving_average(time_series: pd.DataFrame,
         columns: Tuple of String name of columns in time_series for x-axis nad y-axis
         title: String title of the plot
         labels: Tuple of three strings containing labels for x-axis and y-axis and for the plot
+        to_plot: Boolean indicating whether to plot or not
 
     Returns:
+        ax_moving_average: Matplotlib Axes object with moving average plot
     """
     logger.info('plot_moving_average - Start')
 
@@ -305,13 +379,17 @@ def plot_moving_average(time_series: pd.DataFrame,
                              fontsize=12,
                              ncol=2)
 
-    # Show plt
-    plt.show()
+    # Switch for plotting or returning the axes
+    if to_plot:
+        logger.info('plot_regression_plot - Calling the plt.show()')
 
-    # Define the layout
-    plt.tight_layout()
+        # Show plt
+        plt.show()
 
-    logger.info('plot_moving_average - End')
+        # Define the layout
+        plt.tight_layout()
+
+    logger.info('plot_regression_plot - End')
 
     return ax_moving_average
 
@@ -349,7 +427,6 @@ def plot_lags_series(data: pd.Series,
 
     # Fetch the lags to plot
     for axis, lag_value in zip(figure.get_axes(), range(nrows * ncols)):
-
         # plot the lag
         axis = plot_single_lag(data, lag_value=lag_value + 1, ax=axis)
 
@@ -365,3 +442,136 @@ def plot_lags_series(data: pd.Series,
     logger.info('plot_lags_series - End')
 
     return figure
+
+
+def plot_seasonality(data: pd.DataFrame,
+                     columns: Tuple[str, str, str],
+                     title: str,
+                     labels: Tuple[str, str],
+                     to_plot: bool = False) -> matplotlib.axes.Axes:
+    """
+    Plot the seasonality of a time series
+
+    Args:
+        data: Pandas dataframe with time series
+        columns: Tuple[str, str, str] containing columns of category, seasonality and variable
+        title: String title of the plot
+        labels: Tuple[str, str] containing labels for x-axis and y-axis
+        to_plot: Boolean flag for returning the axis or plotting
+
+    Returns:
+        ax_seasonality: Matplotlib Axes object with seasonality plot
+    """
+    logger.info('plot_seasonality - Start')
+
+    # Extract columns
+    category, seasonality, variable = columns[0], columns[1], columns[2]
+
+    logger.info('plot_seasonality - Process data')
+
+    # Process data
+    data_to_plot = pd.melt(frame=data,
+                           id_vars=[category, seasonality],
+                           value_vars=[variable],
+                           value_name=f'avg_{variable}')
+
+    logger.info('plot_seasonality - Plot seasonality')
+
+    # Define axis
+    ax_seasonality = sns.lineplot(data=data_to_plot,
+                                  x=seasonality,
+                                  y=f'avg_{variable}',
+                                  hue=category,
+                                  errorbar=('ci', 95),
+                                  alpha=1.0)
+
+    # Set title
+    ax_seasonality.set_title(title,
+                             fontweight='bold',
+                             fontsize=20)
+
+    # Set tick rotation
+    ax_seasonality.tick_params(labelrotation=45)
+
+    # Set Labels
+    ax_seasonality.set_xlabel(labels[0],
+                              fontsize=14)
+    ax_seasonality.set_ylabel(labels[1],
+                              fontsize=14)
+
+    # Set the legend
+    ax_seasonality.legend(loc='upper center',
+                          bbox_to_anchor=(0.5, 0.95),
+                          fontsize=12,
+                          ncol=2)
+
+    # Switch for plotting or returning the axes
+    if to_plot:
+        logger.info('plot_seasonality - Calling the plt.show()')
+
+        # Show plt
+        plt.show()
+
+        # Define the layout
+        plt.tight_layout()
+
+    logger.info('plot_seasonality - End')
+
+    return ax_seasonality
+
+
+def plot_periodgram(data: pd.DataFrame,
+                    column: str) -> matplotlib.axes.Axes:
+    """
+    Plot the periodgram of a time series
+
+    Args:
+        data: Pandas time series
+        column: String column in data for which to compute the periodgram
+
+    Returns:
+        ax_periodgram: Matplotlib Axes object with periodgram plot
+    """
+    logger.info('plot_periodgram - Start')
+
+    logger.info('plot_periodgram - Retrieve Time Series')
+
+    # Retrieve time series to plot and remove missing values
+    time_series = data[column].copy().dropna()
+
+    logger.info('plot_periodgram - Compute frequencies and spectrum')
+
+    # Compute frequency and spectrum
+    frequency_value = pd.Timedelta("365D") / pd.Timedelta("1D")
+    frequencies, spectrum = periodogram(time_series,
+                                        fs=frequency_value,
+                                        detrend='linear',
+                                        window='boxcar',
+                                        scaling='spectrum')
+
+    # Define the plot
+    _, ax_periodgram = plt.subplots()
+
+    logger.info('plot_periodgram - Plot the Periodgram')
+
+    # Plot the Periodgram
+    ax_periodgram.step(frequencies, spectrum, color='purple')
+
+    # Set plot characteristics
+    ax_periodgram.set_xscale("log")
+    ax_periodgram.set_xticks([1, 2, 4, 6, 12, 26, 52, 104])
+    ax_periodgram.set_xticklabels(["Annual (1)",
+                                   "Semiannual (2)",
+                                   "Quarterly (4)",
+                                   "Bimonthly (6)",
+                                   "Monthly (12)",
+                                   "Biweekly (26)",
+                                   "Weekly (52)",
+                                   "Semiweekly (104)"], rotation=30)
+    ax_periodgram.ticklabel_format(axis="y", style="sci", scilimits=(0, 0))
+    ax_periodgram.set_ylabel("Variance")
+    ax_periodgram.set_title("Periodogram")
+
+    logger.info('plot_periodgram - End')
+
+    return ax_periodgram

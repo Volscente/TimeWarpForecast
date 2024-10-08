@@ -1,0 +1,19 @@
+[eda.data_paths]
+holidays_data = 'data/store_sales/holidays_events.csv'
+oil_data = 'data/store_sales/oil.csv'
+stores_data = 'data/store_sales/stores.csv'
+transactions_data = 'data/store_sales/transactions.csv'
+train_data = 'data/store_sales/train.csv'
+test_data = 'data/store_sales/test.csv'
+
+[eda.plot_settings]
+style = 'whitegrid'
+color_palette = 'deep'
+theme_parameters.axes_spines_right = false
+theme_parameters.axes_spines_top = false
+theme_parameters.grid_alpha = 0.3
+theme_parameters.figure_figsize = [16, 6]
+theme_parameters.font_family = 'Andale Mono'
+theme_parameters.axes_titlesize = 24
+theme_parameters.figure_facecolor = '#E5E8E8'
+theme_parameters.axes_facecolor = '#E5E8E8'
