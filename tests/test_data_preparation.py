@@ -3,10 +3,8 @@ This test module includes all the tests for the
 module src.data_preparation
 """
 # Import Standard Modules
-import pandas as pd
-import pathlib
-import pytest
 from typing import List, Tuple
+import pytest
 
 # Import Package Modules
 from src.data_preparation.data_preparation_utils import (

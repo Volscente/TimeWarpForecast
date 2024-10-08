@@ -520,7 +520,18 @@ def plot_seasonality(data: pd.DataFrame,
     return ax_seasonality
 
 
-def plot_periodgram(data: pd.DataFrame, column: str):
+def plot_periodgram(data: pd.DataFrame,
+                    column: str) -> matplotlib.axes.Axes:
+    """
+    Plot the periodgram of a time series
+
+    Args:
+        data: Pandas time series
+        column: String column in data for which to compute the periodgram
+
+    Returns:
+        ax_periodgram: Matplotlib Axes object with periodgram plot
+    """
     logger.info('plot_periodgram - Start')
 
     logger.info('plot_periodgram - Retrieve Time Series')
