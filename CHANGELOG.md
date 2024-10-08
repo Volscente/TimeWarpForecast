@@ -1,3 +1,26 @@
+v0.1.6
+------
+- [x] Add Data in `data/store_sales/`
+- [x] Add Configuration `store_sales_config.toml` in `configuration`
+- [x] Add Module `data_preparation`
+- [x] Add Function `group_avg_column_by_frequency` in `src/data_preparation/data_preparation_utils.py`
+- [x] Add Data `test_data_preparation_dataset.csv` in `data/test`
+- [x] Add PyTest Fixture `fixture_data_preparation_dataset` in `tests/conftest.py`
+- [x] Add PyTest `test_group_avg_column_by_frequency` in `tests/test_data_preparation.py`
+- [x] Add Function `add_dummy_time_step` in `src/data_preparation/data_preparation_utils.py`
+- [x] Add PyTest `test_add_dummy_time_step` in `tests/test_data_preparation.py`
+- [x] Add Function `add_lag_feature` in `src/data_preparation/data_preparation_utils.py`
+- [x] Add PyTest `test_add_lag_feature` in `tests/test_data_preparation.py`
+- [x] Add Function `plot_regression_plot` in `src/exploratory_data_analysis/exploratory_data_analysis_utils.py`
+- [x] Refactor function `plot_predictions_vs_time_series ` in `src/exploratory_data_analysis/exploratory_data_analysis_utils.py` in order to plot both past and future predictions
+- [x] Add Function `add_seasonality` in `src/data_preparation/data_preparation_utils.py`
+- [x] Add PyTest `test_add_seasonality` in `tests/test_data_preparation.py`
+- [x] Add PyTest `test_add_seasonality_exception` in `tests/test_data_preparation.py`
+- [x] Add Function `plot_seasonality` in `src/exploratory_data_analysis/exploratory_data_analysis_utils.py`
+- [x] Add Function `plot_periodgram` in `src/exploratory_data_analysis/exploratory_data_analysis_utils.py`
+- [x] Add Notebook `store_sales_eda.ipynb` in `notebooks/store_sales`
+- [x] Add Notebook `store_sales_model_training.ipynb` in `notebooks/store_sales`
+
 v0.1.5
 ------
 - [x] Update Notebook `pandas_code_utils.ipynb` in `notebooks/code_utils`

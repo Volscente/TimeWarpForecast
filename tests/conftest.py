@@ -23,7 +23,7 @@ configuration = read_configuration(pathlib.Path(__file__).parents[1]
 
 
 @pytest.fixture
-def fixture_data_config(test_data_config: dict = configuration['test_data_config']):
+def fixture_data_config(test_data_config: dict = configuration['test_data_config']) -> dict:
     """
     Fixture for a Dictionary test data config with structure:
         <data_config_name>:
@@ -42,7 +42,9 @@ def fixture_data_config(test_data_config: dict = configuration['test_data_config
 
 
 @pytest.fixture
-def fixture_exception_data_config(test_exception_data_config: dict = configuration['test_exception_data_config']):
+def fixture_exception_data_config(
+        test_exception_data_config: dict = configuration['test_exception_data_config']
+) -> dict:
     """
     Fixture for a Dictionary test exception data config with structure:
         <data_config_name>:
@@ -90,7 +92,7 @@ def fixture_test_boosted_hybrid_model_data(
 
 
 @pytest.fixture
-def fixture_test_boosted_hybrid_model():
+def fixture_test_boosted_hybrid_model() -> BoostedHybridModel:
     """
     Fixture for an object of class src.model_training.model_training.BoostedHybridModel
 
@@ -102,3 +104,22 @@ def fixture_test_boosted_hybrid_model():
                                XGBRegressor())
 
     return model
+
+
+@pytest.fixture
+def fixture_data_preparation_dataset(
+        data_config: dict = configuration['test_data_preparation_dataset']
+) -> pd.DataFrame:
+    """
+    Fixture for a Pandas DataFrame of data preparation dataset
+
+    Args:
+        data_config: Dictionary of data configuration
+
+    Returns:
+        data: Pandas DataFrame of data preparation dataset
+    """
+    # Read data
+    data = read_data_from_config(data_config)
+
+    return data

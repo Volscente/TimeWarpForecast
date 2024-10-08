@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "TimeWarpForecast"
-version = "0.1.5"
+version = "0.1.6"
 description = "Exploring the temporal realm: dive into the depths of time series forecasting with this repository."
 authors = ["Simone Porreca <porrecasimone@gmail.com>"]
 readme = "README.md"
@@ -19,6 +19,7 @@ xgboost = "^2.1.1"
 pmdarima = "^2.0.4"
 matplotlib = "^3.9.2"
 seaborn = "^0.13.2"
+dynaconf = "^3.2.6"
 
 [build-system]
 requires = ["poetry-core"]

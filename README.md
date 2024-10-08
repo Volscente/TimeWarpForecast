@@ -62,3 +62,8 @@ poetry install
 # Use the option '--without test,docs,dev' if you want to esclude the specified group from install
 poetry install --without test,docs,dev
 ```
+
+# Time Series Forecasting
+## Use Cases
+### Store Sales
+The `Store Sales` use case can be found in `notebooks/store_sales`.
