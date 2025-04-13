@@ -21,6 +21,13 @@ seaborn = "^0.13.2"
 dynaconf = "^3.2.6"
 torch = "^2.6.0"
 torchvision = "^0.21.0"
+transformers = "^4.51.2"
+datasets = "^3.5.0"
+evaluate = "^0.4.3"
+accelerate = "^1.6.0"
+gluonts = "^0.16.1"
+ujson = "^5.10.0"
+tqdm = "^4.67.1"
 
 [build-system]
 requires = ["poetry-core"]
