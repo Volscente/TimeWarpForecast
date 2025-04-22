@@ -8,11 +8,17 @@ simultaneously, allowing computational boosting and long-range dependencies to b
     - This expands the **Local Forecasting** (step-by-step) with **Probabilistic Forecasting** &rarr; Global Probabilistic
     - In order to preserve the order, a Positional Encoding is required
     - It computes positional encodings and adds them into the input token embeddings that are fed into the Transformer
+- Allow the LSTF (Long Sequence Time Series Forecasting) &rarr; Capture long-rage dependencies thanks to the Self-Attention mechanism
+
+## Drawbacks
+- Quadratic computation of self-attention (Time Complexity)
+- High memory usage
 
 # Architectures
 ## Informer
 ### Definition
-It is Encoder-Decoder architecture.
+It is Encoder-Decoder architecture specifically designed for LSTF.
+- [Paper](http://arxiv.org/abs/2012.07436)
 ![Informer Architecture](./images/informer_architecture.png)
 
 ### Process
@@ -34,7 +40,7 @@ It is Encoder-Decoder architecture.
 1. It generates all output time steps simultaneously
 
 ### Drawbacks of Traditional Transformers
-1. Quadratic computation of self attention &rarr; Addressed by using Probabilistic Sparse Attention and not Full Attention
-2. Memory bottleneck fo stacking layers for long inputs &rarr; Addressed by using Distillation for reducing memory consumption 
+1. Quadratic computation of self-attention &rarr; Addressed by using Probabilistic Sparse Attention and not Full Attention
+2. Memory bottleneck of stacking layers for long inputs &rarr; Addressed by using Distillation for reducing memory consumption 
 &rarr; Select only certain data points in the sequence after the Self Attention layer
 3. Speed plunge in predicting long outputs &rarr; Addressed by Generative Inference &rarr; Parallel output of data points from the Informer
