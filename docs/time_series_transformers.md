@@ -6,13 +6,21 @@ They use an Encoder-Decoder architecture that works very well with sequence-to-s
 - Traditional RNNs or LSTMs process sequences step-by-step and respect their order &rarr; Transformers process all tokens
 simultaneously, allowing computational boosting and long-range dependencies to be captured more effectively.
     - This expands the **Local Forecasting** (step-by-step) with **Probabilistic Forecasting** &rarr; Global Probabilistic
-    - In order to preserve the order, a Positional Encoding is required
+    - To preserve the order, a Positional Encoding is required
     - It computes positional encodings and adds them into the input token embeddings that are fed into the Transformer
 - Allow the LSTF (Long Sequence Time Series Forecasting) &rarr; Capture long-rage dependencies thanks to the Self-Attention mechanism
 
 ## Drawbacks
 - Quadratic computation of self-attention (Time Complexity)
 - High memory usage
+
+# Self-Attention
+## K, V and Q vectors
+In the original Transformer architecture, the K and V vectors have dimension (sequence_length, embeddings_dimension).
+
+This was due to the fact that the input sequence has words, which have to be encoded to be fed into a Transformer.
+
+In the case of Time Series Forecasting, this step might not be necessary.
 
 # Architectures
 ## Informer
