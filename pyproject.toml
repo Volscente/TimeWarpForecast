@@ -28,6 +28,7 @@ accelerate = "^1.6.0"
 gluonts = "^0.16.1"
 ujson = "^5.10.0"
 tqdm = "^4.67.1"
+ipywidgets = "^8.1.6"
 
 [build-system]
 requires = ["poetry-core"]
