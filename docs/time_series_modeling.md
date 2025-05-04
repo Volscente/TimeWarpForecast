@@ -1,10 +1,17 @@
-# Time-Step & Lag Features
+# Introduction
+## Time-Step & Lag Features
 The best time series models will usually include some combination of time-step features and lag feature.
 
-# Linear Regression
+## Linear Regression
 Linear regression is widely used in practice and adapts naturally to even complex forecasting tasks.
 
 $` y = x_1 \cdot w_1 + \ldots + x_n \cdot w_n + b `$
+
+## Point vs. Probabilistic Forecasting
+- **Point Forecasting** - Produces a single predicted value for each future time step, but it does not model uncertainty
+- **Probabilistic Forecasting** - Produces a distribution (or multiple quantiles or prediction intervals) over possible future values.
+It is good to model uncertainty.
+
 
 # Hybrid Models or ETS Models
 ## Introduction
