@@ -35,17 +35,17 @@ It is Encoder-Decoder architecture specifically designed for LSTF.
 
 ### Process
 1. Input time series is encoded in a lower dimensional representation by passing it through the Encoder 
-   2. Self-Attention &rarr; Every data point is compared with every other data point &rarr; Determine correlation
-   2. Probabilistic Sparse Attention &rarr; Only use a subset of the total data points for self-attention
-   3. Multi-Head &rarr; Above two steps happen in parallel for multiple times
-   4. Distillation of used data points
-   5. Another Multi-Head ProbSparse Self-Attention (Step 1-3)
-   6. Final encoded Feature Map
+   - Self-Attention &rarr; Every data point is compared with every other data point &rarr; Determine correlation
+   - Probabilistic Sparse Attention &rarr; Only use a subset of the total data points for self-attention
+   - Multi-Head &rarr; Above two steps happen in parallel for multiple times
+   - Distillation of used data points
+   - Another Multi-Head ProbSparse Self-Attention (Step 1-3)
+   - Final encoded Feature Map
 2. The encoded sequence is passed to the Decoder along with part of the original sequence
-   3. Pass part of the original sequence alongside with padding (i.e., the time steps we want to predict)
-   4. Pass such a sequence to a Masked Multi-Head ProbSparse Self-Attention (Self-Attention that can not look into the future)
-   5. Pass the output and the Encoded Feature Map to a Multi-Head Attention
-   6. Pass to a Fully Connected Layer
+   - Pass part of the original sequence alongside with padding (i.e., the time steps we want to predict)
+   - Pass such a sequence to a Masked Multi-Head ProbSparse Self-Attention (Self-Attention that can not look into the future)
+   - Pass the output and the Encoded Feature Map to a Multi-Head Attention
+   - Pass to a Fully Connected Layer
 3. The Decoder generates all the output time steps simultaneously
 
 ### Distillation
